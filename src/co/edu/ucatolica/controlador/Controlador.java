@@ -8,7 +8,8 @@ import co.edu.ucatolica.vista.*;
 public class Controlador implements ActionListener {
     private VentanaPrincipal ventanaPrincipal;
     private VentanaConsultas ventanaConsultas;
-
+    private VistaProveedor visProv;
+    
     public Controlador() {
         this.ventanaPrincipal = new VentanaPrincipal();
         this.ventanaPrincipal.setVisible(true);
@@ -31,8 +32,11 @@ public class Controlador implements ActionListener {
             ventanaClientes.setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnProveedores()) {
             // Abrir ventana de proveedores
-            VentanaProveedores ventanaProveedores = new VentanaProveedores();
-            ventanaProveedores.setVisible(true);
+            visProv = new VistaProveedor(this);
+            visProv.setVisible(true);
+
+
+
         } else if (e.getSource() == ventanaPrincipal.getBtnProductos()) {
             // Abrir ventana de productos
             VentanaProductos ventanaProductos = new VentanaProductos();
@@ -53,6 +57,29 @@ public class Controlador implements ActionListener {
             // Abrir ventana de parámetros
             VentanaParametrizacion ventanaParametros = new VentanaParametrizacion();
             ventanaParametros.setVisible(true);
+        }
+
+
+        //botones proveedor
+        if(e.getActionCommand().equals(visProv.getpanelAgregarProveedores().AGREGAR_PROVEEDOR)){
+            String nit=visProv.getpanelAgregarProveedores().getTxtNIT().getText();
+            String nombre=visProv.getpanelAgregarProveedores().getTxtDireccion().getText();
+            System.err.println("sadsadsa");
+        }
+        if(e.getActionCommand().equals(visProv.getpanelAgregarProveedores().MOFICAR_PROVEEDOR)){
+            System.err.println("sadsadsa");
+        }
+        
+        if(e.getActionCommand().equals(visProv.getpanelFuncionesNit().BUSCAR_LEER)){
+            System.err.println("sadsadsa");
+        }
+        if(e.getActionCommand().equals(visProv.getpanelFuncionesNit().ELIMINAR)){
+            System.err.println("sadsadsa");
+        }
+
+        if(e.getActionCommand().equals(visProv.getpanelFuncionesNit().SALIR)){
+            
+            System.err.println(visProv.getpanelFuncionesNit().getTxtNumero().getText());
         }
     }
 
