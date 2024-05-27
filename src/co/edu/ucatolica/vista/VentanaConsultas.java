@@ -16,7 +16,7 @@ public class VentanaConsultas extends JFrame {
     private JButton btnDetalleChequesExpedidos;
     private JButton btnGenerarReportePDF;
     private JButton btnGenerarReporteExcel;
-	//private Controlador controlador;
+	
 	private Controlador controlador;
 	
 
