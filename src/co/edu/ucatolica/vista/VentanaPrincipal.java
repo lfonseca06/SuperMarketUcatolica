@@ -19,7 +19,7 @@ public class VentanaPrincipal extends JFrame {
 
     public VentanaPrincipal() {
 
-        setTitle("UCatolica SuperMarket111");
+        setTitle("UCatolica SuperMarket");
 
 
         setSize(600, 400);
