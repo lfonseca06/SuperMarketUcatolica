@@ -9,17 +9,13 @@ public class Controlador implements ActionListener {
     private VentanaPrincipal ventanaPrincipal;
     private VentanaConsultas ventanaConsultas;
 
-    public Controlador(VentanaPrincipal ventanaPrincipal) {
-        this.ventanaPrincipal = ventanaPrincipal;
+    public Controlador() {
+        this.ventanaPrincipal = new VentanaPrincipal();
+        this.ventanaPrincipal.setVisible(true);
         this.ventanaPrincipal.setControlador(this);
     }
 
-    public Controlador(VentanaConsultas ventanaConsultas) {
-        this.ventanaConsultas = ventanaConsultas;
-        this.ventanaConsultas.setControlador(this);
-    }
-
-    @Override
+	@Override
     public void actionPerformed(ActionEvent e) {
         if (ventanaPrincipal != null) {
             manejarEventosPrincipal(e);
