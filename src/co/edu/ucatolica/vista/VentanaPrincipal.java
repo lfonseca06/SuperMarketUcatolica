@@ -18,7 +18,7 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnParametros;
 
     public VentanaPrincipal() {
-        setTitle("UCatolica Market");
+        setTitle("UCatolica SMarket");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
