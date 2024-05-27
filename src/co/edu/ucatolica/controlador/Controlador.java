@@ -7,8 +7,7 @@ import co.edu.ucatolica.vista.*;
 
 public class Controlador implements ActionListener {
     private VentanaPrincipal ventanaPrincipal;
-    private VentanaConsultas ventanaConsultas;
-
+    
     public Controlador() {
         this.ventanaPrincipal = new VentanaPrincipal();
         this.ventanaPrincipal.setVisible(true);
@@ -19,9 +18,7 @@ public class Controlador implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (ventanaPrincipal != null) {
             manejarEventosPrincipal(e);
-        } else if (ventanaConsultas != null) {
-            manejarEventosConsultas(e);
-        }
+        } 
     }
 
     private void manejarEventosPrincipal(ActionEvent e) {
@@ -56,7 +53,5 @@ public class Controlador implements ActionListener {
         }
     }
 
-    private void manejarEventosConsultas(ActionEvent e) {
-        // Implementa aquí la lógica para manejar eventos en la ventana de consultas
-    }
+    
 }
