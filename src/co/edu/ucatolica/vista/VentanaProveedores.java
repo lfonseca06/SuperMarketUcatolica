@@ -1,17 +1,15 @@
 package co.edu.ucatolica.vista;
-import co.edu.ucatolica.controlador.Controlador;
+
 import javax.swing.*;
 import java.awt.*;
+import co.edu.ucatolica.modelo.SuperMarketFachada;
 
 public class VentanaProveedores extends JFrame {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JTextField txtNIT, txtNombre, txtDireccion, txtTelefono, txtCiudad;
+    private static final long serialVersionUID = 1L;
+    private JTextField txtNIT, txtNombre, txtDireccion, txtTelefono, txtCiudad;
     private JButton btnGuardar, btnModificar, btnEliminar, btnBuscar;
 
-    public VentanaProveedores() {
+    public VentanaProveedores(SuperMarketFachada fachada) {
         setTitle("Gestión de Proveedores");
         setSize(400, 300);
         setLayout(new GridLayout(7, 2));
@@ -41,12 +39,22 @@ public class VentanaProveedores extends JFrame {
         add(btnModificar);
         add(btnEliminar);
         add(btnBuscar);
-    }
 
-    public void setControlador(Controlador controlador) {
-        btnGuardar.addActionListener(controlador);
-        btnModificar.addActionListener(controlador);
-        btnEliminar.addActionListener(controlador);
-        btnBuscar.addActionListener(controlador);
+        // Asignar acciones a los botones utilizando la fachada
+        btnGuardar.addActionListener(e -> {
+            //fachada.guardarProveedor(/* pasar los parámetros necesarios */);
+        });
+
+        btnModificar.addActionListener(e -> {
+            //fachada.modificarProveedor(/* pasar los parámetros necesarios */);
+        });
+
+        btnEliminar.addActionListener(e -> {
+            //fachada.eliminarProveedor(/* pasar los parámetros necesarios */);
+        });
+
+        btnBuscar.addActionListener(e -> {
+            //fachada.buscarProveedor(/* pasar los parámetros necesarios */);
+        });
     }
 }
