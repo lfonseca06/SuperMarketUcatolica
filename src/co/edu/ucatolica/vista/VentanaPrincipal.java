@@ -126,4 +126,9 @@ public class VentanaPrincipal extends JFrame {
     public JButton getBtnTienda() {
         return btnTienda;
     }
+
+	public Object getBtnParametros() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
