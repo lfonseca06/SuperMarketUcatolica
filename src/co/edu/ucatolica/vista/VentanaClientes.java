@@ -1,25 +1,24 @@
 package co.edu.ucatolica.vista;
 
 import javax.swing.*;
-
 import co.edu.ucatolica.controlador.Controlador;
-
+import co.edu.ucatolica.modelo.SuperMarketFachada;
 import java.awt.*;
 
 public class VentanaClientes extends JFrame {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JTextField txtCedula, txtNombre, txtDireccion, txtTelefono, txtCorreo;
+    private static final long serialVersionUID = 1L;
+    private JTextField txtCedula, txtNombre, txtDireccion, txtTelefono, txtCorreo;
     private JButton btnGuardar, btnModificar, btnEliminar, btnBuscar;
+    private SuperMarketFachada fachada;
 
-    public VentanaClientes() {
+    public VentanaClientes(SuperMarketFachada fachada) {
+        this.fachada = fachada;
+
         setTitle("Gestión de Clientes");
         setSize(400, 300);
         setLayout(new GridLayout(7, 2));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         txtCedula = new JTextField();
         txtNombre = new JTextField();
         txtDireccion = new JTextField();
@@ -52,5 +51,32 @@ public class VentanaClientes extends JFrame {
         btnEliminar.addActionListener(controlador);
         btnBuscar.addActionListener(controlador);
     }
-}
 
+    public String getCedula() {
+        return txtCedula.getText();
+    }
+
+    public String getNombre() {
+        return txtNombre.getText();
+    }
+
+    public String getDireccion() {
+        return txtDireccion.getText();
+    }
+
+    public String getTelefono() {
+        return txtTelefono.getText();
+    }
+
+    public String getCorreo() {
+        return txtCorreo.getText();
+    }
+
+    public void limpiarCampos() {
+        txtCedula.setText("");
+        txtNombre.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+    }
+}

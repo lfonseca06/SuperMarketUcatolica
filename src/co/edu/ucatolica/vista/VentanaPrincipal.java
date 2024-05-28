@@ -1,5 +1,6 @@
 package co.edu.ucatolica.vista;
 
+import co.edu.ucatolica.modelo.SuperMarketFachada;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
@@ -20,9 +21,13 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnReportes;
     private JButton btnTienda;
 
-    public VentanaPrincipal() {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage("./images/logo2.jpg"));
-    	setType(Type.POPUP);
+    private SuperMarketFachada fachada;
+
+    public VentanaPrincipal(SuperMarketFachada fachada) {
+        this.fachada = fachada;
+
+        setIconImage(Toolkit.getDefaultToolkit().getImage("./images/logo2.jpg"));
+        setType(Type.POPUP);
         setTitle("UCatolica SuperMarket");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

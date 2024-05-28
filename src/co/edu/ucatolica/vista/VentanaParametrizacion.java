@@ -1,17 +1,15 @@
 package co.edu.ucatolica.vista;
-import co.edu.ucatolica.controlador.Controlador;
+
 import javax.swing.*;
 import java.awt.*;
+import co.edu.ucatolica.modelo.SuperMarketFachada;
 
 public class VentanaParametrizacion extends JFrame {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JTextField txtNombre, txtTipoComercio, txtNIT, txtCiudad, txtIVA, txtTasaInteres, txtBanco, txtNumeroCuenta, txtGerente;
+    private static final long serialVersionUID = 1L;
+    private JTextField txtNombre, txtTipoComercio, txtNIT, txtCiudad, txtIVA, txtTasaInteres, txtBanco, txtNumeroCuenta, txtGerente;
     private JButton btnGuardar, btnModificar, btnCrear;
 
-    public VentanaParametrizacion() {
+    public VentanaParametrizacion(SuperMarketFachada fachada) {
         setTitle("Parametrización de la Tienda");
         setSize(400, 400);
         setLayout(new GridLayout(11, 2));
@@ -51,11 +49,18 @@ public class VentanaParametrizacion extends JFrame {
         add(btnGuardar);
         add(btnModificar);
         add(btnCrear);
-    }
 
-    public void setControlador(Controlador controlador) {
-        btnGuardar.addActionListener(controlador);
-        btnModificar.addActionListener(controlador);
-        btnCrear.addActionListener(controlador);
+        // Asignar acciones a los botones utilizando la fachada
+        btnGuardar.addActionListener(e -> {
+            //fachada.guardarParametros(/* pasar los parámetros necesarios */);
+        });
+
+        btnModificar.addActionListener(e -> {
+            //fachada.modificarParametros(/* pasar los parámetros necesarios */);
+        });
+
+        btnCrear.addActionListener(e -> {
+            //fachada.crearParametros(/* pasar los parámetros necesarios */);
+        });
     }
 }
