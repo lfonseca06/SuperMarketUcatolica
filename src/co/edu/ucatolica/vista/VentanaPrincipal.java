@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.Window.Type;
 
 public class VentanaPrincipal extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -20,6 +21,8 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnTienda;
 
     public VentanaPrincipal() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage("./images/logo2.jpg"));
+    	setType(Type.POPUP);
         setTitle("UCatolica SuperMarket");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,8 +36,8 @@ public class VentanaPrincipal extends JFrame {
         // Cargar y redimensionar el logo
         try {
             BufferedImage originalImage = ImageIO.read(new File("./images/logo.jpg"));
-            int width = originalImage.getWidth() - (int) (3 / 0.264583); // Convertir mm a px (1 mm ≈ 0.264583 px)
-            int height = originalImage.getHeight() - (int) (3 / 0.264583); // Convertir mm a px
+            int width = originalImage.getWidth() - (int) (4 / 0.264583); // Convertir mm a px (1 mm ≈ 0.264583 px)
+            int height = originalImage.getHeight() - (int) (4 / 0.264583); // Convertir mm a px
             Image resizedImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon logoIcon = new ImageIcon(resizedImage);
             JLabel logoLabel = new JLabel(logoIcon);
@@ -76,7 +79,7 @@ public class VentanaPrincipal extends JFrame {
 
         // Crear un panel contenedor para los botones con márgenes a los lados y margen inferior
         JPanel botonesContainer = new JPanel(new BorderLayout());
-        botonesContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));  // Añadir márgenes de 10 píxeles a los lados y margen inferior
+        botonesContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));  // Espacio a los lados y margen inferior
         botonesContainer.add(botonesPanel, BorderLayout.CENTER);
 
         // Añadir el panel de botones al centro del panel principal
