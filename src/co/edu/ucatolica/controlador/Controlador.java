@@ -42,12 +42,12 @@ public class Controlador implements ActionListener {
             // Abrir ventana de compras
             VentanaCompras ventanaCompras = new VentanaCompras();
             ventanaCompras.setVisible(true);
-        } else if (e.getSource() == ventanaPrincipal.getBtnConsultas()) {
+        } else if (e.getSource() == ventanaPrincipal.getBtnReportes()) {
             // Abrir ventana de consultas
             VentanaConsultas ventanaConsultas = new VentanaConsultas();
             ventanaConsultas.setVisible(true);
-        } else if (e.getSource() == ventanaPrincipal.getBtnParametros()) {
-            // Abrir ventana de parámetros
+        } else if (e.getSource() == ventanaPrincipal.getBtnTienda()) {
+            // Abrir ventana de Tienda
             VentanaParametrizacion ventanaParametros = new VentanaParametrizacion();
             ventanaParametros.setVisible(true);
         }
