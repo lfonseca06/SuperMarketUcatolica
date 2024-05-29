@@ -2,7 +2,6 @@ package co.edu.ucatolica.vista;
 
 import javax.swing.*;
 import java.awt.*;
-import co.edu.ucatolica.controlador.Controlador;
 import co.edu.ucatolica.modelo.SuperMarketFachada;
 
 public class VentanaVentas extends JFrame {
