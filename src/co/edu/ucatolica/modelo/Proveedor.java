@@ -43,20 +43,20 @@ public class Proveedor implements Serializable {
 		ArchivosBinariosProveedor persis =new ArchivosBinariosProveedor();
 		persis.eliminarProveedor(nit);
 	}
-	public void guardarProveedor(){
+	public String guardarProveedor(){
 		ArchivosBinariosProveedor persis =new ArchivosBinariosProveedor();
-		persis.escribirArchivoBinarioProveedor(this);
-		
+		String msg=persis.escribirArchivoBinarioProveedor(this);
+		return msg;
 	}
 	public Proveedor[] verPro(){
 		ArchivosBinariosProveedor persis =new ArchivosBinariosProveedor();
 		Proveedor[] leidos = persis.leerArchivoBinarioProveedores();
 		return leidos;
 	}
-	public void modifPro(String nit ,Proveedor pro){
+	public String modifPro(String nit ,Proveedor pro){
 		ArchivosBinariosProveedor persis =new ArchivosBinariosProveedor();
-		persis.modificarProveedor(nit,pro);
-		
+		String msg=persis.modificarProveedor(nit,pro);
+		return msg;
 	}
 
 	

@@ -25,6 +25,10 @@ public class ArchivosBinariosProveedor {
 	}
 
 	public static String escribirArchivoBinarioProveedor(Proveedor proveedor) {
+		Proveedor buscar=bucarProveedor(proveedor.getNIT());
+		if (buscar!=null){
+			return "Ese proveedor ya existe";
+		}
 		String mensaje = "Archivo Actualizado Exitosamente!";
 		f = new File(rutaReg);
 		try {
@@ -84,6 +88,14 @@ public class ArchivosBinariosProveedor {
 	}
 
 	public static String modificarProveedor(String NIT, Proveedor nuevoProveedor) {
+		Proveedor buscar=bucarProveedor(nuevoProveedor.getNIT());
+		if (!NIT.equals(nuevoProveedor.getNIT())){
+			if (buscar!=null){
+				return "Ese proveedor ya existe";
+			}
+			
+		}
+		
 		String mensaje = "Proveedor modificado exitosamente!";
 		Proveedor[] proveedores = leerArchivoBinarioProveedores();
 		

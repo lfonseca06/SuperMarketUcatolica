@@ -89,7 +89,7 @@ public class VistaProveedor extends JFrame implements ActionListener {
             String ciudad=this.getpanelAgregarProveedores().getTxtCiudad().getText();
             
             Proveedor prov = proveedor.creaProveedor(nit, nombre, direccion, telefono, ciudad);
-            prov.guardarProveedor();
+            this.mensageEmergente(prov.guardarProveedor());
             Proveedor[] ad=prov.verPro();
             this.getpanelDatosProveedores().setProveedor(ad);
             
@@ -103,8 +103,10 @@ public class VistaProveedor extends JFrame implements ActionListener {
             String ciudad=this.getpanelAgregarProveedores().getTxtCiudad().getText();
             
             String modifNit=this.getpanelFuncionesNit().getTxtNumero().getText(); 
+            
             Proveedor prov = proveedor.creaProveedor(nit, nombre, direccion, telefono, ciudad);
-            prov.modifPro(modifNit, prov);
+            
+            this.mensageEmergente(prov.modifPro(modifNit, prov));
             Proveedor[] ad=prov.verPro();
             this.getpanelDatosProveedores().setProveedor(ad);
         }
