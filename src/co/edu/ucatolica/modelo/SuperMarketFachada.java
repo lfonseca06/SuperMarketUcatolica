@@ -2,75 +2,82 @@ package co.edu.ucatolica.modelo;
 
 public class SuperMarketFachada {
 	
-	    public class SuperMarketFacade {
-	    /*	
-	    private ClienteServicio clienteServicio;
-	    private ProveedorServicio proveedorServicio;
-	    private ProductoServicio productoServicio;
-	    private VentaServicio ventaServicio;
-	    private CompraServicio compraServicio;
-	    private ReporteServicio reporteServicio;
+	    
+	    
+	    private Cliente clienteServicio;
+	    private Proveedor proveedorServicio;
+	    private Producto productoServicio;
+	    private Venta ventaServicio;
+	    private Compra compraServicio;
+	    private Reporte reporteServicio;
 
-	    public SuperMarketFacade() {
-	        this.clienteServicio = new ClienteServicio();
-	        this.proveedorServicio = new ProveedorServicio();
-	        this.productoServicio = new ProductoServicio();
-	        this.ventaServicio = new VentaServicio();
-	        this.compraServicio = new CompraServicio();
-	        this.reporteServicio = new ReporteServicio();
+	    public SuperMarketFachada() {
+	        this.clienteServicio = new Cliente();
+			this.proveedorServicio=new Proveedor();
+	        this.productoServicio = new Producto();
+	        this.ventaServicio = new Venta();
+	        this.compraServicio = new Compra();
+	        this.reporteServicio = new Reporte();
 	    }
 
-	    // Métodos para gestionar clientes
-	    public void agregarCliente(Cliente cliente) {
-	        clienteServicio.agregarCliente(cliente);
-	    }
+		public Cliente getClienteServicio() {
+			return clienteServicio;
+		}
+	
+		public void setClienteServicio(Cliente clienteServicio) {
+			this.clienteServicio = clienteServicio;
+		}
+	
+		// Getter y Setter para proveedorServicio
+		public Proveedor getProveedorServicio() {
+			return proveedorServicio;
+		}
+	
+		public void setProveedorServicio(Proveedor proveedorServicio) {
+			this.proveedorServicio = proveedorServicio;
+		}
+	
+		// Getter y Setter para productoServicio
+		public Producto getProductoServicio() {
+			return productoServicio;
+		}
+	
+		public void setProductoServicio(Producto productoServicio) {
+			this.productoServicio = productoServicio;
+		}
+	
+		// Getter y Setter para ventaServicio
+		public Venta getVentaServicio() {
+			return ventaServicio;
+		}
+	
+		public void setVentaServicio(Venta ventaServicio) {
+			this.ventaServicio = ventaServicio;
+		}
+	
+		// Getter y Setter para compraServicio
+		public Compra getCompraServicio() {
+			return compraServicio;
+		}
+	
+		public void setCompraServicio(Compra compraServicio) {
+			this.compraServicio = compraServicio;
+		}
+	
+		// Getter y Setter para reporteServicio
+		public Reporte getReporteServicio() {
+			return reporteServicio;
+		}
+	
+		public void setReporteServicio(Reporte reporteServicio) {
+			this.reporteServicio = reporteServicio;
+		}
 
-	    public void eliminarCliente(int id) {
-	        clienteServicio.eliminarCliente(id);
-	    }
+}
 
-	    public Cliente obtenerCliente(int id) {
-	        return clienteServicio.obtenerCliente(id);
-	    }
+        
 
-	    // Métodos para gestionar proveedores
-	    public void agregarProveedor(Proveedor proveedor) {
-	        proveedorServicio.agregarProveedor(proveedor);
-	    }
+        
 
-	    public void eliminarProveedor(int id) {
-	        proveedorServicio.eliminarProveedor(id);
-	    }
-
-	    public Proveedor obtenerProveedor(int id) {
-	        return proveedorServicio.obtenerProveedor(id);
-	    }
-
-	    // Métodos para gestionar productos
-	    public void agregarProducto(Producto producto) {
-	        productoServicio.agregarProducto(producto);
-	    }
-
-	    public void eliminarProducto(int id) {
-	        productoServicio.eliminarProducto(id);
-	    }
-
-	    public Producto obtenerProducto(int id) {
-	        return productoServicio.obtenerProducto(id);
-	    }
-
-	    // Métodos para gestionar ventas
-	    public void registrarVenta(Venta venta) {
-	        ventaServicio.registrarVenta(venta);
-	    }
-
-	    // Métodos para gestionar compras
-	    public void registrarCompra(Compra compra) {
-	        compraServicio.registrarCompra(compra);
-	    }
-
-	    // Métodos para generar reportes
-	    public Reporte generarReporte() {
-	        return reporteServicio.generarReporte(); */
-	    }
-	}
+		   
+	
