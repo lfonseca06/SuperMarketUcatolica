@@ -29,6 +29,7 @@ public class VentanaParametrizacion extends JFrame {
     }
 
     private void initComponents() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage("./images/parametrizacion_logo.png"));
         setTitle("Parametrización de Tienda");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -10,7 +10,7 @@ public class VentanaProveedores extends JFrame {
     private JButton btnGuardar, btnModificar, btnEliminar, btnBuscar;
 
     public VentanaProveedores(SuperMarketFachada fachada) {
-        setTitle("Gestión de Proveedores");
+    	setTitle("Gestión de Proveedores");
         setSize(400, 300);
         setLayout(new GridLayout(7, 2));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
