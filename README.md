@@ -1,45 +1,6 @@
 PROYECTO DE SOFTWARE PARA GESTIONAR TRANSACCIONES
 COMERCIALES DE UNA TIENDA GENÉRICA
 
-
-
-Arquitectura de Software
-
-
-co.edu.ucatolica
-│
-├── modelo
-│   ├── Cliente.java
-│   ├── Producto.java
-│   ├── Proveedor.java
-│   ├── Venta.java
-│   └── Credito.java
-│   └── Cheque
-│   └── Compra
-│   └── DetalleCompra
-│   └── DetalleVenta
-│   └── Tienda
-│   └── Venta
-│
-│   ├── persistencia
-│   │   └── GestorArchivos.java
-│
-├── vista
-│   ├── VentanaPrincipal.java
-│   ├── VentanaClientes.java
-│   ├── VentanaProveedores.java
-│   ├── VentanaProductos.java
-│   ├── VentanaVentas.java
-│   ├── VentanaCompras.java
-│   ├── VentanaConsultas.java
-│   └── VentanaParametros.java
-│
-└── controlador
-    ├── Controlador.java
-    └── Main.java
-
-
-
 # 🛒 SuperMarket Application
 
 ## Descripción del Proyecto
@@ -58,28 +19,77 @@ Este proyecto es una aplicación de gestión para supermercados, diseñada utili
 ## 📂 Estructura de Carpetas y Paquetes
 
 ```plaintext
-supermarket-app/
-├── 📁 src/
-│   ├── 📁 co/
-│   │   ├── 📁 edu/
-│   │   │   ├── 📁 ucatolica/
-│   │   │   │   ├── 📁 controlador/
-│   │   │   │   │   ├── Controlador.java
-│   │   │   │   │   └── Main.java
-│   │   │   │   ├── 📁 modelo/
-│   │   │   │   │   ├── SuperMarketFachada.java
-│   │   │   │   │   └── Tienda.java
-│   │   │   │   ├── 📁 persistencia/
-│   │   │   │   └── 📁 vista/
-│   │   │   │       ├── VentanaPrincipal.java
-│   │   │   │       ├── VentanaClientes.java
-│   │   │   │       ├── VistaProveedor.java
-│   │   │   │       ├── VentanaProductos.java
-│   │   │   │       ├── VentanaVentas.java
-│   │   │   │       ├── VentanaCompras.java
-│   │   │   │       ├── VentanaConsultas.java
-│   │   │   │       └── VentanaParametrizacion.java
-├── 📁 persistencia/
-│   └── config.dat
-├── .gitignore
-└── README.md
+/SuperMarketUCatolica/src
+├── co.edu.ucatolica.controlador
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/controlador/Controlador.java
+│   └── /SuperMarketUCatolica/src/co/edu/ucatolica/controlador/Main.java
+├── co.edu.ucatolica.modelo
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Cheque.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Cliente.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Compra.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/DetalleCompra.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/DetalleVenta.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/EjmploConvertirNumeroATexto.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/NumeroATexto.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Producto.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Proveedor.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Reporte.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/SuperMarketFachada.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Tienda.java
+│   └── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/Venta.java
+├── co.edu.ucatolica.modelo.persistencia
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/persistencia/ArchivosBinariosProveedor.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/persistencia/EjemploGestorArchivos.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/persistencia/EjemploGestorArchivosSerializado.java
+│   └── /SuperMarketUCatolica/src/co/edu/ucatolica/modelo/persistencia/GestorArchivos.java
+├── co.edu.ucatolica.vista
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/PanelProveedorAgregar.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/PanelProveedorDatos.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/PanelProveedorFuncionesNit.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaClientes.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaCompras.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaConsultas.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaParametrizacion.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaPrincipal.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaProductos.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaProveedores.java
+│   ├── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VentanaVentas.java
+│   └── /SuperMarketUCatolica/src/co/edu/ucatolica/vista/VistaProveedor.java
+├── /SuperMarketUCatolica/data
+│   ├── /SuperMarketUCatolica/data/borrar.txt
+│   ├── /SuperMarketUCatolica/data/config.dat
+│   └── /SuperMarketUCatolica/data/proveedores.out
+└── /SuperMarketUCatolica/images
+    ├── /SuperMarketUCatolica/images/borrar.txt
+    ├── /SuperMarketUCatolica/images/logo.jpg
+    ├── /SuperMarketUCatolica/images/logo2.jpg
+    ├── /SuperMarketUCatolica/images/logo2.png
+    └── /SuperMarketUCatolica/images/parametrizacion_logo.png
+
+
+🔧 Requisitos
+
+    JDK 8 o superior
+    IDE de tu preferencia (Eclipse, IntelliJ, NetBeans, etc.)
+
+🛠️ Instalación y Ejecución
+
+    Clona el repositorio:
+
+	https://github.com/lfonseca06/SuperMarketUcatolica.git
+	
+    Importa el proyecto en tu IDE favorito.
+    Asegúrate de que src esté configurado como el directorio de código fuente.
+    Ejecuta la clase Main.java ubicada en co.edu.ucatolica.controlador.
+
+📘 Uso
+
+    Ventana Principal: Desde aquí se puede acceder a las diferentes funcionalidades de la aplicación.
+    Ventana de Parametrización: Permite configurar los parámetros iniciales de la tienda.
+
+🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request.
+📄 Licencia
+
+Este proyecto está licenciado bajo los términos de la Licencia MIT.
