@@ -35,8 +35,8 @@ public class Controlador implements ActionListener {
             VistaProveedor ventanaProveedores = new VistaProveedor(fachada.getProveedorServicio());
             ventanaProveedores.setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnProductos()) {
-            // Abrir ventana de productos
-            VentanaProductos ventanaProductos = new VentanaProductos(fachada);
+        	// Abrir ventana de productos
+        	VentanaProductos ventanaProductos = new VentanaProductos();
             ventanaProductos.setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnVentas()) {
             // Abrir ventana de ventas
