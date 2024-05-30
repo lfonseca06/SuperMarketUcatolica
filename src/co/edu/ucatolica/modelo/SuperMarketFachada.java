@@ -121,7 +121,6 @@ public class SuperMarketFachada {
 			this.reporteServicio = reporteServicio;
 		}
 		
-
 }
 
         

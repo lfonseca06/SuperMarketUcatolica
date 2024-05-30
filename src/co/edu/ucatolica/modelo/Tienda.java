@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.Properties;
 
 public class Tienda implements Serializable {
- 
-	private static final long serialVersionUID = 1L;
-	private static final String CONFIG_PATH = "persistencia/config.dat";
-	private String nombre;
+    private static final long serialVersionUID = 1L;
+    private static final String CONFIG_PATH = "data/config.dat";
+    
+    private String nombre;
     private String tipoComercio;
     private String NIT;
     private String ciudad;
@@ -17,7 +17,6 @@ public class Tienda implements Serializable {
     private String numeroCuenta;
     private String nombreGerente;
 
-    // Getters y Setters
     public static boolean existeEmpresa() {
         File configFile = new File(CONFIG_PATH);
         return configFile.exists();
@@ -50,59 +49,22 @@ public class Tienda implements Serializable {
     }
 
     // Getters y setters
-    public String getNombre() { 
-    	return nombre; 
-    }
-    public void setNombre(String nombre) { 
-    	this.nombre = nombre; 
-    }
-    public String getTipoComercio() { 
-    	return tipoComercio; 
-    }
-    public void setTipoComercio(String tipoComercio) { 
-    	this.tipoComercio = tipoComercio; 
-    }
-    public String getNIT() { 
-    	return NIT; 
-    }
-    public void setNIT(String NIT) { 
-    	this.NIT = NIT; 
-    }
-    public String getCiudad() { 
-    	return ciudad; 
-    }
-    public void setCiudad(String ciudad) { 
-    	this.ciudad = ciudad; 
-    }
-    public double getValorIVA() { 
-    	return valorIVA; 
-    }
-    public void setValorIVA(double valorIVA) { 
-    	this.valorIVA = valorIVA; 
-    }
-    public double getTasaInteres() { 
-    	return tasaInteres; 
-    }
-    public void setTasaInteres(double tasaInteres) { 
-    	this.tasaInteres = tasaInteres; 
-    }
-    public String getNombreBanco() { 
-    	return nombreBanco; 
-    }
-    public void setNombreBanco(String nombreBanco) { 
-    	this.nombreBanco = nombreBanco; 
-    }
-    public String getNumeroCuenta() { 
-    	return numeroCuenta; 
-    }
-    public void setNumeroCuenta(String numeroCuenta) { 
-    	this.numeroCuenta = numeroCuenta; 
-    }
-    public String getNombreGerente() { 
-    	return nombreGerente; 
-    }
-    public void setNombreGerente(String nombreGerente) { 
-    	this.nombreGerente = nombreGerente; 
-    }
-    
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getTipoComercio() { return tipoComercio; }
+    public void setTipoComercio(String tipoComercio) { this.tipoComercio = tipoComercio; }
+    public String getNIT() { return NIT; }
+    public void setNIT(String NIT) { this.NIT = NIT; }
+    public String getCiudad() { return ciudad; }
+    public void setCiudad(String ciudad) { this.ciudad = ciudad; }
+    public double getValorIVA() { return valorIVA; }
+    public void setValorIVA(double valorIVA) { this.valorIVA = valorIVA; }
+    public double getTasaInteres() { return tasaInteres; }
+    public void setTasaInteres(double tasaInteres) { this.tasaInteres = tasaInteres; }
+    public String getNombreBanco() { return nombreBanco; }
+    public void setNombreBanco(String nombreBanco) { this.nombreBanco = nombreBanco; }
+    public String getNumeroCuenta() { return numeroCuenta; }
+    public void setNumeroCuenta(String numeroCuenta) { this.numeroCuenta = numeroCuenta; }
+    public String getNombreGerente() { return nombreGerente; }
+    public void setNombreGerente(String nombreGerente) { this.nombreGerente = nombreGerente; }
 }
