@@ -46,6 +46,7 @@ public class SuperMarketFachada {
 	        try {
 	            tienda.guardarConfiguracion();
 	        } catch (IOException e) {
+	        	e.printStackTrace();
 	            System.out.println("No se pudo guardar la configuración: " + e.getMessage());
 	        }
 	    }
@@ -64,6 +65,7 @@ public class SuperMarketFachada {
 	        try {
 	            tienda.guardarConfiguracion();
 	        } catch (IOException e) {
+	        	e.printStackTrace();
 	            System.out.println("No se pudo guardar la configuración: " + e.getMessage());
 	        }
 	    }

@@ -23,6 +23,10 @@ public class Tienda implements Serializable {
     }
 
     public void guardarConfiguracion() throws IOException {
+        File configDir = new File("persistencia");
+        if (!configDir.exists()) {
+            configDir.mkdir();
+        }
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CONFIG_PATH))) {
             oos.writeObject(this);
         }
@@ -43,6 +47,7 @@ public class Tienda implements Serializable {
                 this.numeroCuenta = tienda.numeroCuenta;
                 this.nombreGerente = tienda.nombreGerente;
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();  // Imprime la traza de la excepción para más detalles
                 throw new IOException("Error al cargar la configuración: " + e.getMessage());
             }
         }
@@ -67,4 +72,5 @@ public class Tienda implements Serializable {
     public void setNumeroCuenta(String numeroCuenta) { this.numeroCuenta = numeroCuenta; }
     public String getNombreGerente() { return nombreGerente; }
     public void setNombreGerente(String nombreGerente) { this.nombreGerente = nombreGerente; }
+    
 }

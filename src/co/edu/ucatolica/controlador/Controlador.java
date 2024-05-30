@@ -9,7 +9,6 @@ import javax.swing.*;
 public class Controlador implements ActionListener {
     private VentanaPrincipal ventanaPrincipal;
     private SuperMarketFachada fachada;
-    private VentanaParametrizacion ventanaParametros;
 
     public Controlador() {
         this.fachada = new SuperMarketFachada();
@@ -23,10 +22,6 @@ public class Controlador implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (ventanaPrincipal != null) {
             manejarEventosPrincipal(e);
-        }
-        
-        if (ventanaParametros != null) {
-        	manejarEventosParametros(e);
         }
     }
 
@@ -59,39 +54,33 @@ public class Controlador implements ActionListener {
             // Abrir ventana de Tienda
             VentanaParametrizacion ventanaParametros = new VentanaParametrizacion(fachada);
             ventanaParametros.setVisible(true);
+            ventanaParametros.setControlador(this);
+        } else if (e.getSource() instanceof JButton) {
+            manejarEventosParametrizacion(e);
         }
     }
     
-    private void manejarEventosParametros(ActionEvent e) {
-        if (e.getSource() == ventanaParametros.getBtnGuardar()) {
-            fachada.modificarParametros(
-                ventanaParametros.getNombre(),
-                ventanaParametros.getTipoComercio(),
-                ventanaParametros.getNIT(),
-                ventanaParametros.getCiudad(),
-                ventanaParametros.getValorIVA(),
-                ventanaParametros.getTasaInteres(),
-                ventanaParametros.getNombreBanco(),
-                ventanaParametros.getNumeroCuenta(),
-                ventanaParametros.getNombreGerente()
-            );
-        } else if (e.getSource() == ventanaParametros.getBtnModificar()) {
-            fachada.modificarParametros(
-                ventanaParametros.getNombre(),
-                ventanaParametros.getTipoComercio(),
-                ventanaParametros.getNIT(),
-                ventanaParametros.getCiudad(),
-                ventanaParametros.getValorIVA(),
-                ventanaParametros.getTasaInteres(),
-                ventanaParametros.getNombreBanco(),
-                ventanaParametros.getNumeroCuenta(),
-                ventanaParametros.getNombreGerente()
-            );
-        } else if (e.getSource() == ventanaParametros.getBtnCrear()) {
+    private void manejarEventosParametrizacion(ActionEvent e) {
+        VentanaParametrizacion ventanaParametros = (VentanaParametrizacion) ((JButton) e.getSource()).getTopLevelAncestor();
+        if (e.getSource() == ventanaParametros.getBtnCrear()) {
             if (fachada.existeEmpresa()) {
-                JOptionPane.showMessageDialog(ventanaParametros, "Ya existe una empresa creada. No se puede crear otra.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(ventanaParametros, "Ya existe una empresa creada. Solo puede modificar los parámetros.");
             } else {
                 fachada.crearParametros(
+                        ventanaParametros.getNombre(),
+                        ventanaParametros.getTipoComercio(),
+                        ventanaParametros.getNIT(),
+                        ventanaParametros.getCiudad(),
+                        ventanaParametros.getValorIVA(),
+                        ventanaParametros.getTasaInteres(),
+                        ventanaParametros.getNombreBanco(),
+                        ventanaParametros.getNumeroCuenta(),
+                        ventanaParametros.getNombreGerente()
+                );
+                JOptionPane.showMessageDialog(ventanaParametros, "Empresa creada exitosamente.");
+            }
+        } else if (e.getSource() == ventanaParametros.getBtnGuardar()) {
+            fachada.crearParametros(
                     ventanaParametros.getNombre(),
                     ventanaParametros.getTipoComercio(),
                     ventanaParametros.getNIT(),
@@ -101,9 +90,21 @@ public class Controlador implements ActionListener {
                     ventanaParametros.getNombreBanco(),
                     ventanaParametros.getNumeroCuenta(),
                     ventanaParametros.getNombreGerente()
-                );
-                JOptionPane.showMessageDialog(ventanaParametros, "Tienda creada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            }
+            );
+            JOptionPane.showMessageDialog(ventanaParametros, "Parámetros guardados exitosamente.");
+        } else if (e.getSource() == ventanaParametros.getBtnModificar()) {
+            fachada.modificarParametros(
+                    ventanaParametros.getNombre(),
+                    ventanaParametros.getTipoComercio(),
+                    ventanaParametros.getNIT(),
+                    ventanaParametros.getCiudad(),
+                    ventanaParametros.getValorIVA(),
+                    ventanaParametros.getTasaInteres(),
+                    ventanaParametros.getNombreBanco(),
+                    ventanaParametros.getNumeroCuenta(),
+                    ventanaParametros.getNombreGerente()
+            );
+            JOptionPane.showMessageDialog(ventanaParametros, "Parámetros modificados exitosamente.");
         }
     }
     
