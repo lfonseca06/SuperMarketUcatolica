@@ -6,6 +6,7 @@ import java.util.Properties;
 public class Tienda implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String CONFIG_PATH = "data/config.dat";
+    private static final String CONFIG_FILE_PATH = "data/config.dat";
     
     private String nombre;
     private String tipoComercio;
@@ -16,6 +17,21 @@ public class Tienda implements Serializable {
     private String nombreBanco;
     private String numeroCuenta;
     private String nombreGerente;
+    
+    public Tienda() {
+    }
+
+    public Tienda(String nombre, String tipoComercio, String NIT, String ciudad, double valorIVA, double tasaInteres, String nombreBanco, String numeroCuenta, String nombreGerente) {
+        this.nombre = nombre;
+        this.tipoComercio = tipoComercio;
+        this.NIT = NIT;
+        this.ciudad = ciudad;
+        this.valorIVA = valorIVA;
+        this.tasaInteres = tasaInteres;
+        this.nombreBanco = nombreBanco;
+        this.numeroCuenta = numeroCuenta;
+        this.nombreGerente = nombreGerente;
+    }
 
     public static boolean existeEmpresa() {
         File configFile = new File(CONFIG_PATH);
@@ -50,16 +66,30 @@ public class Tienda implements Serializable {
                 e.printStackTrace();  // Imprime la traza de la excepción para más detalles
                 throw new IOException("Error al cargar la configuración: " + e.getMessage());
             }
+        } else {
+            throw new IOException("El archivo de configuración no existe.");
         }
     }
 
     // Getters y setters
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public String getTipoComercio() { return tipoComercio; }
-    public void setTipoComercio(String tipoComercio) { this.tipoComercio = tipoComercio; }
-    public String getNIT() { return NIT; }
-    public void setNIT(String NIT) { this.NIT = NIT; }
+    public String getNombre() { 
+    	return nombre; 
+    }
+    public void setNombre(String nombre) { 
+    	this.nombre = nombre; 
+    }
+    public String getTipoComercio() { 
+    	return tipoComercio; 
+    }
+    public void setTipoComercio(String tipoComercio) { 
+    	this.tipoComercio = tipoComercio; 
+    }
+    public String getNIT() { 
+    	return NIT; 
+    }
+    public void setNIT(String NIT) { 
+    	this.NIT = NIT; 
+    }
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
     public double getValorIVA() { return valorIVA; }
