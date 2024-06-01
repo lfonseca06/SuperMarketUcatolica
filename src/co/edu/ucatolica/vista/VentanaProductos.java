@@ -2,17 +2,18 @@ package co.edu.ucatolica.vista;
 
 import javax.swing.*;
 import java.awt.*;
-import co.edu.ucatolica.controlador.Controlador;
-import co.edu.ucatolica.modelo.SuperMarketFachada;
+import java.io.IOException;
+import java.util.List;
+import co.edu.ucatolica.modelo.Producto;
+import co.edu.ucatolica.modelo.persistencia.GestorArchivos;
 
 public class VentanaProductos extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField txtCodigoProducto, txtNombreProducto, txtNITProveedor, txtPrecioCompra, txtPrecioVenta;
     private JButton btnAgregarProducto, btnActualizarProducto, btnEliminarProducto, btnBuscarProducto;
-    private SuperMarketFachada fachada;
-
-    public VentanaProductos(SuperMarketFachada fachada) {
-        this.fachada = fachada;
+    private Producto produ;
+    public VentanaProductos(Producto producto) {
+        setProducto(producto);
         setTitle("Gestión de Productos");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -51,55 +52,70 @@ public class VentanaProductos extends JFrame {
     }
 
     private void agregarProducto() {
-        // Obtener los datos de los campos de texto
-        String codigo = txtCodigoProducto.getText();
-        String nombre = txtNombreProducto.getText();
-        String nitProveedor = txtNITProveedor.getText();
-        double precioCompra = Double.parseDouble(txtPrecioCompra.getText());
-        double precioVenta = Double.parseDouble(txtPrecioVenta.getText());
-
-        // Llamar al método correspondiente de la fachada
-        //fachada.agregarProducto(codigo, nombre, nitProveedor, precioCompra, precioVenta);
+        try {
+            Producto producto =produ.crarProducto();
+            producto.setCodigo(txtCodigoProducto.getText());
+            producto.setNombre(txtNombreProducto.getText());
+            producto.setNITProveedor(txtNITProveedor.getText());
+            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText()));
+            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText()));
+            produ.agregarProducto(producto);
+            produ.GestorArchivosguardarProductos(Producto.obtenerProductos());
+            JOptionPane.showMessageDialog(this, "Producto agregado exitosamente");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al agregar producto: " + ex.getMessage());
+        }
     }
 
     private void actualizarProducto() {
-        // Obtener los datos de los campos de texto
-        String codigo = txtCodigoProducto.getText();
-        String nombre = txtNombreProducto.getText();
-        String nitProveedor = txtNITProveedor.getText();
-        double precioCompra = Double.parseDouble(txtPrecioCompra.getText());
-        double precioVenta = Double.parseDouble(txtPrecioVenta.getText());
-
-        // Llamar al método correspondiente de la fachada
-        //fachada.actualizarProducto(codigo, nombre, nitProveedor, precioCompra, precioVenta);
+        try {
+            Producto producto =produ.crarProducto();
+            producto.setCodigo(txtCodigoProducto.getText());
+            producto.setNombre(txtNombreProducto.getText());
+            producto.setNITProveedor(txtNITProveedor.getText());
+            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText()));
+            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText()));
+            produ.actualizarProducto(producto);
+            produ.GestorArchivosguardarProductos(Producto.obtenerProductos());
+            JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar producto: " + ex.getMessage());
+        }
     }
 
     private void eliminarProducto() {
-        // Obtener el código del producto a eliminar
-        String codigo = txtCodigoProducto.getText();
-
-        // Llamar al método correspondiente de la fachada
-        //fachada.eliminarProducto(codigo);
+        try {
+            String codigo = txtCodigoProducto.getText();
+            produ.eliminarProducto(codigo);
+            produ.GestorArchivosguardarProductos(Producto.obtenerProductos());
+            JOptionPane.showMessageDialog(this, "Producto eliminado exitosamente");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar producto: " + ex.getMessage());
+        }
     }
 
     private void buscarProducto() {
-        // Obtener el código del producto a buscar
-        String codigo = txtCodigoProducto.getText();
-
-        // Llamar al método correspondiente de la fachada y mostrar los resultados en los campos de texto
-        /*Producto producto = fachada.buscarProducto(codigo);
-        if (producto != null) {
-            txtNombreProducto.setText(producto.getNombre());
-            txtNITProveedor.setText(producto.getNitProveedor());
-            txtPrecioCompra.setText(String.valueOf(producto.getPrecioCompra()));
-            txtPrecioVenta.setText(String.valueOf(producto.getPrecioVenta()));
-        } else {
-            // Limpiar los campos de texto si no se encuentra el producto
-            txtNombreProducto.setText("");
-            txtNITProveedor.setText("");
-            txtPrecioCompra.setText("");
-            txtPrecioVenta.setText("");
-            JOptionPane.showMessageDialog(this, "Producto no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-        }*/
+        try {
+            List<Producto> productos = produ.gestorArchivosCargarProductos();
+            String codigo = txtCodigoProducto.getText();
+            Producto producto = productos.stream()
+                .filter(p -> p.getCodigo().equals(codigo))
+                .findFirst()
+                .orElse(null);
+            if (producto != null) {
+                txtNombreProducto.setText(producto.getNombre());
+                txtNITProveedor.setText(producto.getNITProveedor());
+                txtPrecioCompra.setText(String.valueOf(producto.getPrecioCompra()));
+                txtPrecioVenta.setText(String.valueOf(producto.getPrecioVenta()));
+            } else {
+                JOptionPane.showMessageDialog(this, "Producto no encontrado");
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "Error al buscar producto: " + ex.getMessage());
+        }
+    }
+    public void setProducto(Producto producto){
+        producto=produ;
     }
 }
+

@@ -1,7 +1,10 @@
 package co.edu.ucatolica.modelo.persistencia;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import co.edu.ucatolica.modelo.Producto;
 
 public class GestorArchivos {
 
@@ -55,6 +58,25 @@ public class GestorArchivos {
             lista = reader.lines().toList();
         }
         return lista;
+    }
+
+
+    private static final String FILE_PATH = "./data/productos.dat";
+
+    public static void guardarProductos(List<Producto> productos) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            oos.writeObject(productos);
+        }
+    }
+
+    public static List<Producto> cargarProductos() throws IOException, ClassNotFoundException {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            return (List<Producto>) ois.readObject();
+        }
     }
 }
 
