@@ -92,4 +92,8 @@ public class Producto implements Serializable {
     public static  List<Producto> gestorArchivosCargarProductos() throws ClassNotFoundException, IOException{
         return (GestorArchivos.cargarProductos());
     }
+    
+    public static boolean existeProducto(String codigo) {
+        return productos.stream().anyMatch(p -> p.getCodigo().equals(codigo));
+    }
 }

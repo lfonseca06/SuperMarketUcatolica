@@ -12,13 +12,14 @@ public class VentanaProductos extends JFrame {
     private JTextField txtCodigoProducto, txtNombreProducto, txtNITProveedor, txtPrecioCompra, txtPrecioVenta;
     private JButton btnAgregarProducto, btnActualizarProducto, btnEliminarProducto, btnBuscarProducto;
     private Producto produ;
+
     public VentanaProductos(Producto producto) {
         setProducto(producto);
         setTitle("Gestión de Productos");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(9, 2));
-        
+
         txtCodigoProducto = new JTextField();
         txtNombreProducto = new JTextField();
         txtNITProveedor = new JTextField();
@@ -53,14 +54,14 @@ public class VentanaProductos extends JFrame {
 
     private void agregarProducto() {
         try {
-            Producto producto =produ.crarProducto();
-            producto.setCodigo(txtCodigoProducto.getText());
-            producto.setNombre(txtNombreProducto.getText());
-            producto.setNITProveedor(txtNITProveedor.getText());
-            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText()));
-            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText()));
+            Producto producto = produ.crarProducto();
+            producto.setCodigo(txtCodigoProducto.getText().trim());
+            producto.setNombre(txtNombreProducto.getText().trim());
+            producto.setNITProveedor(txtNITProveedor.getText().trim());
+            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText().trim()));
+            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText().trim()));
             produ.agregarProducto(producto);
-            produ.GestorArchivosguardarProductos(Producto.obtenerProductos());
+            GestorArchivos.guardarProductos(Producto.obtenerProductos());
             JOptionPane.showMessageDialog(this, "Producto agregado exitosamente");
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al agregar producto: " + ex.getMessage());
@@ -69,15 +70,19 @@ public class VentanaProductos extends JFrame {
 
     private void actualizarProducto() {
         try {
-            Producto producto =produ.crarProducto();
-            producto.setCodigo(txtCodigoProducto.getText());
-            producto.setNombre(txtNombreProducto.getText());
-            producto.setNITProveedor(txtNITProveedor.getText());
-            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText()));
-            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText()));
-            produ.actualizarProducto(producto);
-            produ.GestorArchivosguardarProductos(Producto.obtenerProductos());
-            JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente");
+            Producto producto = produ.crarProducto();
+            producto.setCodigo(txtCodigoProducto.getText().trim());
+            producto.setNombre(txtNombreProducto.getText().trim());
+            producto.setNITProveedor(txtNITProveedor.getText().trim());
+            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText().trim()));
+            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText().trim()));
+            if (Producto.existeProducto(producto.getCodigo())) {
+                produ.actualizarProducto(producto);
+                GestorArchivos.guardarProductos(Producto.obtenerProductos());
+                JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error: El producto no existe");
+            }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al actualizar producto: " + ex.getMessage());
         }
@@ -85,23 +90,36 @@ public class VentanaProductos extends JFrame {
 
     private void eliminarProducto() {
         try {
-            String codigo = txtCodigoProducto.getText();
+            String codigo = txtCodigoProducto.getText().trim();
             produ.eliminarProducto(codigo);
-            produ.GestorArchivosguardarProductos(Producto.obtenerProductos());
+            GestorArchivos.guardarProductos(Producto.obtenerProductos());
             JOptionPane.showMessageDialog(this, "Producto eliminado exitosamente");
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al eliminar producto: " + ex.getMessage());
         }
     }
 
+    private void verTodosProductos() {
+        try {
+            List<Producto> productos = Producto.obtenerProductos();
+            StringBuilder sb = new StringBuilder();
+            for (Producto producto : productos) {
+                sb.append(producto.toString()).append("\n");
+            }
+            JOptionPane.showMessageDialog(this, sb.toString(), "Lista de Productos", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al obtener la lista de productos: " + ex.getMessage());
+        }
+    }
+
     private void buscarProducto() {
         try {
-            List<Producto> productos = produ.gestorArchivosCargarProductos();
-            String codigo = txtCodigoProducto.getText();
+            List<Producto> productos = GestorArchivos.cargarProductos();
+            String codigo = txtCodigoProducto.getText().trim();
             Producto producto = productos.stream()
-                .filter(p -> p.getCodigo().equals(codigo))
-                .findFirst()
-                .orElse(null);
+                    .filter(p -> p.getCodigo().equals(codigo))
+                    .findFirst()
+                    .orElse(null);
             if (producto != null) {
                 txtNombreProducto.setText(producto.getNombre());
                 txtNITProveedor.setText(producto.getNITProveedor());
@@ -114,8 +132,9 @@ public class VentanaProductos extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al buscar producto: " + ex.getMessage());
         }
     }
-    public void setProducto(Producto producto){
-        producto=produ;
+
+    public void setProducto(Producto producto) {
+        this.produ = producto;
     }
 }
 
