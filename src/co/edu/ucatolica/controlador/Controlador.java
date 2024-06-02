@@ -28,7 +28,7 @@ public class Controlador implements ActionListener {
     private void manejarEventosPrincipal(ActionEvent e) {
         if (e.getSource() == ventanaPrincipal.getBtnClientes()) {
             // Abrir ventana de clientes
-            VentanaClientes ventanaClientes = new VentanaClientes(fachada);
+            VentanaClientes ventanaClientes = new VentanaClientes(fachada.getClienteServicio());
             ventanaClientes.setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnProveedores()) {
             // Abrir ventana de proveedores

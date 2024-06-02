@@ -1,82 +1,203 @@
 package co.edu.ucatolica.vista;
 
 import javax.swing.*;
-import co.edu.ucatolica.controlador.Controlador;
-import co.edu.ucatolica.modelo.SuperMarketFachada;
+import co.edu.ucatolica.modelo.Cliente;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class VentanaClientes extends JFrame {
-    private static final long serialVersionUID = 1L;
-    private JTextField txtCedula, txtNombre, txtDireccion, txtTelefono, txtCorreo;
-    private JButton btnGuardar, btnModificar, btnEliminar, btnBuscar;
-    private SuperMarketFachada fachada;
 
-    public VentanaClientes(SuperMarketFachada fachada) {
-        this.fachada = fachada;
+    private JTextField txtCedula;
+    private JTextField txtNombreCompleto;
+    private JTextField txtDireccion;
+    private JTextField txtTelefono;
+    private JTextField txtCorreo;
+    private JTable tableClientes;
+    private List<Cliente> listaClientes;
+    private Cliente clientePersis;
 
-        setTitle("Gestión de Clientes");
-        setSize(400, 300);
-        setLayout(new GridLayout(7, 2));
+    public VentanaClientes(Cliente cli) {
+        super("Clientes");
+        
+        clientePersis = cli.crearCliente();
+        listaClientes = clientePersis.getPersisClientes().getListaClientes();
+
+        JLabel lblTitulo = new JLabel("Gestión de Clientes");
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitulo.setOpaque(true);
+        lblTitulo.setForeground(Color.GREEN);
+
+        JPanel panelTitulo = new JPanel();
+        panelTitulo.add(lblTitulo);
+
+        JLabel lblCedula = new JLabel("Cédula:");
+        JLabel lblNombreCompleto = new JLabel("Nombre Completo:");
+        JLabel lblDireccion = new JLabel("Dirección:");
+        JLabel lblTelefono = new JLabel("Teléfono:");
+        JLabel lblCorreo = new JLabel("Correo Electrónico:");
+
+        txtCedula = new JTextField(20);
+        txtNombreCompleto = new JTextField(20);
+        txtDireccion = new JTextField(20);
+        txtTelefono = new JTextField(20);
+        txtCorreo = new JTextField(20);
+
+        JButton btnGuardar = new JButton("Guardar");
+        JButton btnBuscar = new JButton("Buscar");
+        JButton btnModificar = new JButton("Modificar");
+        JButton btnEliminar = new JButton("Eliminar");
+
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cedula = txtCedula.getText();
+                String nombreCompleto = txtNombreCompleto.getText();
+                String direccion = txtDireccion.getText();
+                String telefono = txtTelefono.getText();
+                String correo = txtCorreo.getText();
+
+                if (!cedulaExiste(cedula)) {
+                    Cliente cliente = new Cliente(cedula, nombreCompleto, direccion, telefono, correo);
+                    clientePersis.getPersisClientes().guardarCliente(cliente);
+                    listaClientes = clientePersis.getPersisClientes().getListaClientes();
+                    actualizarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(null, "La cédula ya existe. No se puede guardar el cliente.");
+                }
+            }
+        });
+
+        btnBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String criterio = txtCedula.getText();
+                buscarCliente(criterio);
+            }
+        });
+
+        btnModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tableClientes.getSelectedRow();
+                if (selectedRow >= 0) {
+                    Cliente cliente = listaClientes.get(selectedRow);
+                    cliente.setNombreCompleto(txtNombreCompleto.getText());
+                    cliente.setDireccion(txtDireccion.getText());
+                    cliente.setTelefono(txtTelefono.getText());
+                    cliente.setCorreo(txtCorreo.getText());
+                    clientePersis.getPersisClientes().guardarListaClientes();
+                    listaClientes = clientePersis.getPersisClientes().getListaClientes();
+                    actualizarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla para modificar.");
+                }
+            }
+        });
+
+        btnEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tableClientes.getSelectedRow();
+                if (selectedRow >= 0) {
+                    listaClientes.remove(selectedRow);
+                    clientePersis.getPersisClientes().guardarListaClientes();
+                    listaClientes = clientePersis.getPersisClientes().getListaClientes();
+                    actualizarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla para eliminar.");
+                }
+            }
+        });
+
+        tableClientes = new JTable();
+        actualizarTabla();
+
+        tableClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting() && tableClientes.getSelectedRow() != -1) {
+                    int selectedRow = tableClientes.getSelectedRow();
+                    Cliente cliente = listaClientes.get(selectedRow);
+                    txtCedula.setText(cliente.getCedula());
+                    txtNombreCompleto.setText(cliente.getNombreCompleto());
+                    txtDireccion.setText(cliente.getDireccion());
+                    txtTelefono.setText(cliente.getTelefono());
+                    txtCorreo.setText(cliente.getCorreo());
+                }
+            }
+        });
+
+        JPanel panel = new JPanel(new GridLayout(7, 2));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        panel.add(lblCedula);
+        panel.add(txtCedula);
+        panel.add(lblNombreCompleto);
+        panel.add(txtNombreCompleto);
+        panel.add(lblDireccion);
+        panel.add(txtDireccion);
+        panel.add(lblTelefono);
+        panel.add(txtTelefono);
+        panel.add(lblCorreo);
+        panel.add(txtCorreo);
+        panel.add(btnGuardar);
+        panel.add(btnBuscar);
+        panel.add(btnModificar);
+        panel.add(btnEliminar);
+
+        JScrollPane scrollPane = new JScrollPane(tableClientes);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20)); // Espacio de 20 píxeles a la derecha e izquierda
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(panelTitulo, BorderLayout.NORTH);
+        getContentPane().add(panel, BorderLayout.CENTER);
+        getContentPane().add(scrollPane, BorderLayout.SOUTH);
+
+        pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        txtCedula = new JTextField();
-        txtNombre = new JTextField();
-        txtDireccion = new JTextField();
-        txtTelefono = new JTextField();
-        txtCorreo = new JTextField();
-        btnGuardar = new JButton("Guardar");
-        btnModificar = new JButton("Modificar");
-        btnEliminar = new JButton("Eliminar");
-        btnBuscar = new JButton("Buscar");
-
-        add(new JLabel("Cédula:"));
-        add(txtCedula);
-        add(new JLabel("Nombre:"));
-        add(txtNombre);
-        add(new JLabel("Dirección:"));
-        add(txtDireccion);
-        add(new JLabel("Teléfono:"));
-        add(txtTelefono);
-        add(new JLabel("Correo Electrónico:"));
-        add(txtCorreo);
-        add(btnGuardar);
-        add(btnModificar);
-        add(btnEliminar);
-        add(btnBuscar);
+        setLocationRelativeTo(null);
     }
 
-    public void setControlador(Controlador controlador) {
-        btnGuardar.addActionListener(controlador);
-        btnModificar.addActionListener(controlador);
-        btnEliminar.addActionListener(controlador);
-        btnBuscar.addActionListener(controlador);
+    private void buscarCliente(String criterio) {
+        List<Cliente> clientesEncontrados = new ArrayList<>();
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getCedula().equals(criterio) || cliente.getNombreCompleto().contains(criterio)) {
+                clientesEncontrados.add(cliente);
+            }
+        }
+        mostrarClientes(clientesEncontrados);
     }
 
-    public String getCedula() {
-        return txtCedula.getText();
+    private void mostrarClientes(List<Cliente> clientes) {
+        String[] columnNames = {"Cédula", "Nombre Completo", "Dirección", "Teléfono", "Correo Electrónico"};
+        String[][] data = new String[clientes.size()][5];
+
+        for (int i = 0; i < clientes.size(); i++) {
+            Cliente cliente = clientes.get(i);
+            data[i][0] = cliente.getCedula();
+            data[i][1] = cliente.getNombreCompleto();
+            data[i][2] = cliente.getDireccion();
+            data[i][3] = cliente.getTelefono();
+            data[i][4] = cliente.getCorreo();
+        }
+
+        tableClientes.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
     }
 
-    public String getNombre() {
-        return txtNombre.getText();
+    private void actualizarTabla() {
+        mostrarClientes(listaClientes);
     }
 
-    public String getDireccion() {
-        return txtDireccion.getText();
-    }
-
-    public String getTelefono() {
-        return txtTelefono.getText();
-    }
-
-    public String getCorreo() {
-        return txtCorreo.getText();
-    }
-
-    public void limpiarCampos() {
-        txtCedula.setText("");
-        txtNombre.setText("");
-        txtDireccion.setText("");
-        txtTelefono.setText("");
-        txtCorreo.setText("");
+    private boolean cedulaExiste(String cedula) {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getCedula().equals(cedula)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
