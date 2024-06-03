@@ -63,21 +63,48 @@ public class GestorArchivos {
 
     private static final String FILE_PATH = "./data/productos.dat";
 
-    public static void guardarProductos(List<Producto> productos) throws IOException {
+    public static void eliminarProductoCodigo(String productoBorrar) throws IOException {
         try {
-            List<Producto> pro=cargarProductos();
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-                for(Producto producto:productos){
-                    pro.add(producto);
-                }
-                oos.writeObject(productos);
-            }
+            List<Producto> productosExis = cargarProductos();
+            productosExis.removeIf(prod -> prod.getCodigo().equals(productoBorrar));
+            guardarListaProductos(productosExis);
         } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error al eliminar producto: " + e.getMessage());
         }
-        
+    }
+
+    public static void actualizarProducto(Producto productosNew) throws IOException {
+        try {
+            List<Producto> productosExis = cargarProductos();
+            boolean productoEncontrado = false;
+            for (Producto produExis : productosExis) {
+                if (produExis.getCodigo().equals(productosNew.getCodigo())) {
+                    produExis.setCodigo(productosNew.getCodigo());
+                    produExis.setNITProveedor(productosNew.getNITProveedor());
+                    produExis.setNombre(productosNew.getNombre());
+                    produExis.setPrecioCompra(productosNew.getPrecioCompra());
+                    produExis.setPrecioVenta(productosNew.getPrecioVenta());
+                    productoEncontrado = true;
+                    break;
+                }
+            }
+            if (!productoEncontrado) {
+                productosExis.add(productosNew);
+            }
+            guardarListaProductos(productosExis);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error al actualizar producto: " + e.getMessage());
+        }
+    }
+
+    public static void guardarProducto(Producto productosNew) throws IOException {
+        try {
+            List<Producto> productosExis = cargarProductos();
+            productosExis.add(productosNew);
+            guardarListaProductos(productosExis);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error al guardar producto: " + e.getMessage());
+        }
     }
 
     public static List<Producto> cargarProductos() throws IOException, ClassNotFoundException {
@@ -87,6 +114,22 @@ public class GestorArchivos {
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             return (List<Producto>) ois.readObject();
+        }
+    }
+
+    private static void guardarListaProductos(List<Producto> productos) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            oos.writeObject(productos);
+        }
+    }
+
+    public static boolean existeProducto(String codigo) throws IOException {
+        try {
+            List<Producto> productos = cargarProductos();
+            return productos.stream().anyMatch(prod -> prod.getCodigo().equals(codigo));
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error al verificar existencia del producto: " + e.getMessage());
+            return false;
         }
     }
 }

@@ -11,10 +11,8 @@ public class VentanaProductos extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField txtCodigoProducto, txtNombreProducto, txtNITProveedor, txtPrecioCompra, txtPrecioVenta;
     private JButton btnAgregarProducto, btnActualizarProducto, btnEliminarProducto, btnBuscarProducto;
-    private Producto produ;
 
-    public VentanaProductos(Producto producto) {
-        setProducto(producto);
+    public VentanaProductos() {
         setTitle("Gestión de Productos");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -45,7 +43,6 @@ public class VentanaProductos extends JFrame {
         add(btnEliminarProducto);
         add(btnBuscarProducto);
 
-        // Configurar acciones de los botones
         btnAgregarProducto.addActionListener(e -> agregarProducto());
         btnActualizarProducto.addActionListener(e -> actualizarProducto());
         btnEliminarProducto.addActionListener(e -> eliminarProducto());
@@ -54,24 +51,25 @@ public class VentanaProductos extends JFrame {
 
     private void agregarProducto() {
         try {
-            Producto producto = produ.crarProducto();
+            String codigo = txtCodigoProducto.getText();
+            if (GestorArchivos.existeProducto(codigo)) {
+                JOptionPane.showMessageDialog(this, "Error: El producto con el mismo código ya existe");
+                return;
+            }
+            Producto producto = new Producto();
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtNombreProducto.getText());
             producto.setNITProveedor(txtNITProveedor.getText());
-            try{
-                Double precioCom=Double.parseDouble(txtPrecioCompra.getText());
+            try {
+                Double precioCom = Double.parseDouble(txtPrecioCompra.getText());
                 producto.setPrecioCompra(precioCom);
-                Double precioVen=Double.parseDouble(txtPrecioVenta.getText());
+                Double precioVen = Double.parseDouble(txtPrecioVenta.getText());
                 producto.setPrecioVenta(precioVen);
-                produ.agregarProducto(producto);
-                GestorArchivos.guardarProductos(Producto.obtenerProductos());
+                GestorArchivos.guardarProducto(producto);
                 JOptionPane.showMessageDialog(this, "Producto agregado exitosamente");
-
-            }catch(java.lang.NumberFormatException e){
-                JOptionPane.showMessageDialog(this, "Error algunos parametros deben ser numeros");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error: Algunos parámetros deben ser números");
             }
-            
-            
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al agregar producto: " + ex.getMessage());
         }
@@ -79,26 +77,19 @@ public class VentanaProductos extends JFrame {
 
     private void actualizarProducto() {
         try {
-            Producto producto = produ.crarProducto();
+            Producto producto = new Producto();
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtNombreProducto.getText());
             producto.setNITProveedor(txtNITProveedor.getText());
-            try{
-                Double precioCom=Double.parseDouble(txtPrecioCompra.getText());
+            try {
+                Double precioCom = Double.parseDouble(txtPrecioCompra.getText());
                 producto.setPrecioCompra(precioCom);
-                Double precioVen=Double.parseDouble(txtPrecioVenta.getText());
+                Double precioVen = Double.parseDouble(txtPrecioVenta.getText());
                 producto.setPrecioVenta(precioVen);
-
-            }catch(java.lang.NumberFormatException e){
-                JOptionPane.showMessageDialog(this, "Error algunos parametros deben ser numeros");
-            }
-           
-            if (Producto.existeProducto(producto.getCodigo())) {
-                produ.actualizarProducto(producto);
-                GestorArchivos.guardarProductos(Producto.obtenerProductos());
+                GestorArchivos.actualizarProducto(producto);
                 JOptionPane.showMessageDialog(this, "Producto actualizado exitosamente");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error: El producto no existe");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error: Algunos parámetros deben ser números");
             }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al actualizar producto: " + ex.getMessage());
@@ -108,24 +99,10 @@ public class VentanaProductos extends JFrame {
     private void eliminarProducto() {
         try {
             String codigo = txtCodigoProducto.getText().trim();
-            produ.eliminarProducto(codigo);
-            GestorArchivos.guardarProductos(Producto.obtenerProductos());
+            GestorArchivos.eliminarProductoCodigo(codigo);
             JOptionPane.showMessageDialog(this, "Producto eliminado exitosamente");
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al eliminar producto: " + ex.getMessage());
-        }
-    }
-
-    private void verTodosProductos() {
-        try {
-            List<Producto> productos = Producto.obtenerProductos();
-            StringBuilder sb = new StringBuilder();
-            for (Producto producto : productos) {
-                sb.append(producto.toString()).append("\n");
-            }
-            JOptionPane.showMessageDialog(this, sb.toString(), "Lista de Productos", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al obtener la lista de productos: " + ex.getMessage());
         }
     }
 
@@ -149,9 +126,4 @@ public class VentanaProductos extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al buscar producto: " + ex.getMessage());
         }
     }
-
-    public void setProducto(Producto producto) {
-        this.produ = producto;
-    }
 }
-

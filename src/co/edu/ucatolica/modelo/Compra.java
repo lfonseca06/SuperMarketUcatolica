@@ -21,7 +21,15 @@ public class Compra{
     private double valorTotalConIVA;
     private List<DetalleCompra> detalles;
 
-    
+    public static String[] comboboX(List<Producto> nitsFiltados){
+        String[] nitProductos= new String[nitsFiltados.size()];
+        int indice=0;
+        for (Producto producto:nitsFiltados){
+            nitProductos[indice]=producto.getNITProveedor();
+            indice++;
+        }
+        return nitProductos;
+    }
 	public static Proveedor[] leerProveedores() {
         Proveedor[] proveedores = ArchivosBinariosProveedor.leerArchivoBinarioProveedores();
         if (proveedores == null) {
