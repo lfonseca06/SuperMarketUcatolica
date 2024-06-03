@@ -27,34 +27,26 @@ public class Controlador implements ActionListener {
 
     private void manejarEventosPrincipal(ActionEvent e) {
         if (e.getSource() == ventanaPrincipal.getBtnClientes()) {
-            // Abrir ventana de clientes
-            VentanaClientes ventanaClientes = new VentanaClientes(fachada.getClienteServicio());
-            ventanaClientes.setVisible(true);
+            ventanaPrincipal.getVentanaClientes().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnProveedores()) {
             // Abrir ventana de proveedores
-            VistaProveedor ventanaProveedores = new VistaProveedor(fachada.getProveedorServicio());
-            ventanaProveedores.setVisible(true);
+            ventanaPrincipal.getVentanaProveedores().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnProductos()) {
             // Abrir ventana de productos
-            VentanaProductos ventanaProductos = new VentanaProductos();
-            ventanaProductos.setVisible(true);
+            ventanaPrincipal.getVentanaProductos().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnVentas()) {
             // Abrir ventana de ventas
-            VentanaVentas ventanaVentas = new VentanaVentas(fachada);
-            ventanaVentas.setVisible(true);
+            ventanaPrincipal.getVentanaVentas().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnCompras()) {
             // Abrir ventana de compras
-            VentanaCompras ventanaCompras = new VentanaCompras(fachada);
-            ventanaCompras.setVisible(true);
+            ventanaPrincipal.getVentanaCompras().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnReportes()) {
             // Abrir ventana de reportes
-            VentanaConsultas ventanaConsultas = new VentanaConsultas(fachada);
-            ventanaConsultas.setVisible(true);
+            ventanaPrincipal.getVentanaConsultas().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnTienda()) {
             // Abrir ventana de Tienda
-            VentanaParametrizacion ventanaParametros = new VentanaParametrizacion(fachada);
-            ventanaParametros.setVisible(true);
-            ventanaParametros.setControlador(this);
+            ventanaPrincipal.getVentanaParametros().setVisible(true);
+            ventanaPrincipal.getVentanaParametros().setControlador(this);
         } else if (e.getSource() instanceof JButton) {
             manejarEventosParametrizacion(e);
         }

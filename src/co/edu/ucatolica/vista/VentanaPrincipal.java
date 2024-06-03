@@ -21,10 +21,26 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnReportes;
     private JButton btnTienda;
 
+    private VentanaClientes ventanaClientes ;
+    private VistaProveedor ventanaProveedores ;    
+    private  VentanaProductos ventanaProductos;
+    private VentanaVentas ventanaVentas ;   
+    private VentanaCompras ventanaCompras ;  
+    private VentanaConsultas ventanaConsultas ;   
+    private VentanaParametrizacion ventanaParametros ;
+        
+
     private SuperMarketFachada fachada;
 
     public VentanaPrincipal(SuperMarketFachada fachada) {
         this.fachada = fachada;
+        this.ventanaClientes = new VentanaClientes(fachada.getClienteServicio());
+        this.ventanaProveedores = new VistaProveedor(fachada.getProveedorServicio());
+        this.ventanaProductos = new VentanaProductos();
+        this.ventanaVentas = new VentanaVentas(fachada);
+        this.ventanaCompras = new VentanaCompras(fachada);
+        this.ventanaConsultas = new VentanaConsultas(fachada);
+        this.ventanaParametros = new VentanaParametrizacion(fachada);
 
         setIconImage(Toolkit.getDefaultToolkit().getImage("./images/logo2.jpg"));
         setType(Type.POPUP);
@@ -130,5 +146,32 @@ public class VentanaPrincipal extends JFrame {
 
     public JButton getBtnTienda() {
         return btnTienda;
+    }
+    public VentanaClientes getVentanaClientes() {
+        return ventanaClientes;
+    }
+
+    public VistaProveedor getVentanaProveedores() {
+        return ventanaProveedores;
+    }
+
+    public VentanaProductos getVentanaProductos() {
+        return ventanaProductos;
+    }
+
+    public VentanaVentas getVentanaVentas() {
+        return ventanaVentas;
+    }
+
+    public VentanaCompras getVentanaCompras() {
+        return ventanaCompras;
+    }
+
+    public VentanaConsultas getVentanaConsultas() {
+        return ventanaConsultas;
+    }
+
+    public VentanaParametrizacion getVentanaParametros() {
+        return ventanaParametros;
     }
 }
