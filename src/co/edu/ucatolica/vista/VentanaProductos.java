@@ -55,14 +55,23 @@ public class VentanaProductos extends JFrame {
     private void agregarProducto() {
         try {
             Producto producto = produ.crarProducto();
-            producto.setCodigo(txtCodigoProducto.getText().trim());
-            producto.setNombre(txtNombreProducto.getText().trim());
-            producto.setNITProveedor(txtNITProveedor.getText().trim());
-            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText().trim()));
-            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText().trim()));
-            produ.agregarProducto(producto);
-            GestorArchivos.guardarProductos(Producto.obtenerProductos());
-            JOptionPane.showMessageDialog(this, "Producto agregado exitosamente");
+            producto.setCodigo(txtCodigoProducto.getText());
+            producto.setNombre(txtNombreProducto.getText());
+            producto.setNITProveedor(txtNITProveedor.getText());
+            try{
+                Double precioCom=Double.parseDouble(txtPrecioCompra.getText());
+                producto.setPrecioCompra(precioCom);
+                Double precioVen=Double.parseDouble(txtPrecioVenta.getText());
+                producto.setPrecioVenta(precioVen);
+                produ.agregarProducto(producto);
+                GestorArchivos.guardarProductos(Producto.obtenerProductos());
+                JOptionPane.showMessageDialog(this, "Producto agregado exitosamente");
+
+            }catch(java.lang.NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "Error algunos parametros deben ser numeros");
+            }
+            
+            
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al agregar producto: " + ex.getMessage());
         }
@@ -71,11 +80,19 @@ public class VentanaProductos extends JFrame {
     private void actualizarProducto() {
         try {
             Producto producto = produ.crarProducto();
-            producto.setCodigo(txtCodigoProducto.getText().trim());
-            producto.setNombre(txtNombreProducto.getText().trim());
-            producto.setNITProveedor(txtNITProveedor.getText().trim());
-            producto.setPrecioCompra(Double.parseDouble(txtPrecioCompra.getText().trim()));
-            producto.setPrecioVenta(Double.parseDouble(txtPrecioVenta.getText().trim()));
+            producto.setCodigo(txtCodigoProducto.getText());
+            producto.setNombre(txtNombreProducto.getText());
+            producto.setNITProveedor(txtNITProveedor.getText());
+            try{
+                Double precioCom=Double.parseDouble(txtPrecioCompra.getText());
+                producto.setPrecioCompra(precioCom);
+                Double precioVen=Double.parseDouble(txtPrecioVenta.getText());
+                producto.setPrecioVenta(precioVen);
+
+            }catch(java.lang.NumberFormatException e){
+                JOptionPane.showMessageDialog(this, "Error algunos parametros deben ser numeros");
+            }
+           
             if (Producto.existeProducto(producto.getCodigo())) {
                 produ.actualizarProducto(producto);
                 GestorArchivos.guardarProductos(Producto.obtenerProductos());

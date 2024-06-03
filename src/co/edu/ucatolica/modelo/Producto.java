@@ -96,4 +96,10 @@ public class Producto implements Serializable {
     public static boolean existeProducto(String codigo) {
         return productos.stream().anyMatch(p -> p.getCodigo().equals(codigo));
     }
+  
+    public String toString(){
+        return (codigo+" " +nombre+" "+ NITProveedor+" "+
+        Double.toString(precioCompra)+" "+Double.toString(precioVenta));
+
+    }
 }

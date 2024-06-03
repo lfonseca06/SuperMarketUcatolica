@@ -64,9 +64,20 @@ public class GestorArchivos {
     private static final String FILE_PATH = "./data/productos.dat";
 
     public static void guardarProductos(List<Producto> productos) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-            oos.writeObject(productos);
+        try {
+            List<Producto> pro=cargarProductos();
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+                for(Producto producto:productos){
+                    pro.add(producto);
+                }
+                oos.writeObject(productos);
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
+        
     }
 
     public static List<Producto> cargarProductos() throws IOException, ClassNotFoundException {
