@@ -39,7 +39,7 @@ public class VentanaPrincipal extends JFrame {
         this.ventanaProductos = new VentanaProductos();
         this.ventanaVentas = new VentanaVentas(fachada);
         this.compraVista = new CompraVista(fachada.getCompraServicio());
-        this.ventanaConsultas = new VentanaConsultas(fachada);
+        this.ventanaConsultas = new VentanaConsultas(fachada.getReporteServicio());
         this.ventanaParametros = new VentanaParametrizacion(fachada);
 
         setIconImage(Toolkit.getDefaultToolkit().getImage("./images/logo2.jpg"));

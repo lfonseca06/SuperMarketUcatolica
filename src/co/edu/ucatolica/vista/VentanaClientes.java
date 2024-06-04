@@ -23,12 +23,8 @@ public class VentanaClientes extends JFrame {
     
     private int selectedRow; //añadido por victor 
     
-   
-    
     public VentanaClientes(Cliente cli) {
         super("Clientes");
-        
-        
         
         clientePersis = cli.crearCliente();
         listaClientes = clientePersis.getPersisClientes().getListaClientes();
@@ -58,9 +54,6 @@ public class VentanaClientes extends JFrame {
         JButton btnBuscar = new JButton("Buscar");
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-        
-        
-        
         
         btnGuardar.addActionListener(new ActionListener() {
             @Override
@@ -102,7 +95,6 @@ public class VentanaClientes extends JFrame {
                 	
                 }
                 //Añadido por victor
-                
                 
             }
         });
@@ -200,12 +192,7 @@ public class VentanaClientes extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        
-        
-        
-        
-        
-        
+
     }
     
     
@@ -231,11 +218,7 @@ public class VentanaClientes extends JFrame {
         txtTelefono.setText("");
         txtCorreo.setText("");
     }
-    
-    
- 
-    
-    
+
     //añadido por victor
     private int buscarCliente_enLista(String criterio) {
         for (int i = 0; i < listaClientes.size(); i++) {
