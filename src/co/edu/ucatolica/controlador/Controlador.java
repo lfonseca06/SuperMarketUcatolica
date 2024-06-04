@@ -27,6 +27,7 @@ public class Controlador implements ActionListener {
 
     private void manejarEventosPrincipal(ActionEvent e) {
         if (e.getSource() == ventanaPrincipal.getBtnClientes()) {
+        	ventanaPrincipal.getVentanaClientes().limpiarCampos(); //Limpiar campos al mostrar ventana campos
             ventanaPrincipal.getVentanaClientes().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnProveedores()) {
             // Abrir ventana de proveedores

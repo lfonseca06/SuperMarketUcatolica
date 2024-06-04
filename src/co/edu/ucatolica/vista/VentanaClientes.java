@@ -20,9 +20,15 @@ public class VentanaClientes extends JFrame {
     private JTable tableClientes;
     private List<Cliente> listaClientes;
     private Cliente clientePersis;
-
+    
+    private int selectedRow; //añadido por victor 
+    
+   
+    
     public VentanaClientes(Cliente cli) {
         super("Clientes");
+        
+        
         
         clientePersis = cli.crearCliente();
         listaClientes = clientePersis.getPersisClientes().getListaClientes();
@@ -52,7 +58,10 @@ public class VentanaClientes extends JFrame {
         JButton btnBuscar = new JButton("Buscar");
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-
+        
+        
+        
+        
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,6 +76,7 @@ public class VentanaClientes extends JFrame {
                     clientePersis.getPersisClientes().guardarCliente(cliente);
                     listaClientes = clientePersis.getPersisClientes().getListaClientes();
                     actualizarTabla();
+                    JOptionPane.showMessageDialog(null, "Se guardo cliente satisfactoriamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "La cédula ya existe. No se puede guardar el cliente.");
                 }
@@ -77,44 +87,69 @@ public class VentanaClientes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String criterio = txtCedula.getText();
-                buscarCliente(criterio);
+                //buscarCliente(criterio); //eliminado por victor 
+                
+                
+                //Añadido por victor
+                if (criterio.isEmpty()) {
+                    // El campo txtCedula está vacío
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un criterio de búsqueda");
+                    return; // Salir del método actionPerformed
+                }
+                else if (!criterio.isEmpty()) {
+                	selectedRow =(buscarCliente_enLista(criterio));//añadido por victor 
+                    System.out.println("busqueda de posicion lista: "+selectedRow);//añadido por victor 
+                	
+                }
+                //Añadido por victor
+                
+                
             }
         });
 
         btnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = tableClientes.getSelectedRow();
+                //int selectedRow = tableClientes.getSelectedRow(); //borrado por victor 
+            	System.out.println("modificar posicion lista: "+selectedRow);//añadido por victor 
                 if (selectedRow >= 0) {
                     Cliente cliente = listaClientes.get(selectedRow);
+                    cliente.setCedula(txtCedula.getText());
                     cliente.setNombreCompleto(txtNombreCompleto.getText());
                     cliente.setDireccion(txtDireccion.getText());
                     cliente.setTelefono(txtTelefono.getText());
                     cliente.setCorreo(txtCorreo.getText());
+                    
                     clientePersis.getPersisClientes().guardarListaClientes();
                     listaClientes = clientePersis.getPersisClientes().getListaClientes();
                     actualizarTabla();
+                    JOptionPane.showMessageDialog(null, "Cliente editado correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla para modificar.");
                 }
+                
             }
         });
 
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = tableClientes.getSelectedRow();
+                //int selectedRow = tableClientes.getSelectedRow();//eliminado por victor 
+            	System.out.println("eliminar posicion lista: "+selectedRow);//añadido por victor 
                 if (selectedRow >= 0) {
                     listaClientes.remove(selectedRow);
                     clientePersis.getPersisClientes().guardarListaClientes();
                     listaClientes = clientePersis.getPersisClientes().getListaClientes();
                     actualizarTabla();
+                    JOptionPane.showMessageDialog(null, "Cliente eliminado correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla para eliminar.");
                 }
             }
         });
-
+        
+        /*
+        //eliminado por victor 
         tableClientes = new JTable();
         actualizarTabla();
 
@@ -132,7 +167,9 @@ public class VentanaClientes extends JFrame {
                 }
             }
         });
-
+        //eliminado por victor 
+        */
+        
         JPanel panel = new JPanel(new GridLayout(7, 2));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         panel.add(lblCedula);
@@ -149,19 +186,31 @@ public class VentanaClientes extends JFrame {
         panel.add(btnBuscar);
         panel.add(btnModificar);
         panel.add(btnEliminar);
-
+        
+        
         JScrollPane scrollPane = new JScrollPane(tableClientes);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20)); // Espacio de 20 píxeles a la derecha e izquierda
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(panelTitulo, BorderLayout.NORTH);
         getContentPane().add(panel, BorderLayout.CENTER);
         getContentPane().add(scrollPane, BorderLayout.SOUTH);
-
+		
+        
+        
         pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        
+        
+        
+        
+        
+        
     }
-
+    
+    
+    /*
+    //eliminado por victor 
     private void buscarCliente(String criterio) {
         List<Cliente> clientesEncontrados = new ArrayList<>();
         for (Cliente cliente : listaClientes) {
@@ -169,10 +218,54 @@ public class VentanaClientes extends JFrame {
                 clientesEncontrados.add(cliente);
             }
         }
-        mostrarClientes(clientesEncontrados);
+        mostrarClientes(clientesEncontrados); 
     }
+    //eliminado por victor 
+    */
+    
+    public void limpiarCampos() {
+    	// Inicializar campos en vacío
+        txtCedula.setText("");
+        txtNombreCompleto.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+    }
+    
+    
+ 
+    
+    
+    //añadido por victor
+    private int buscarCliente_enLista(String criterio) {
+        for (int i = 0; i < listaClientes.size(); i++) {
+            Cliente cliente = listaClientes.get(i);
+            
+            System.out.println("criterio es: "+criterio);
 
-    private void mostrarClientes(List<Cliente> clientes) {
+            if (cliente.getCedula().equals(criterio) || cliente.getNombreCompleto().contains(criterio)) {
+
+                // Llenar los campos con la información del cliente encontrado
+                txtNombreCompleto.setText(cliente.getNombreCompleto());
+                txtDireccion.setText(cliente.getDireccion());
+                txtTelefono.setText(cliente.getTelefono());
+                txtCorreo.setText(cliente.getCorreo());
+
+                // Retornar la posición del cliente en la lista
+                return i;
+            }
+            
+        }
+        // Si no se encuentra el cliente, retornar -1
+        JOptionPane.showMessageDialog(null, "Cliente no se encuentra");
+        return -1;
+        
+    }
+    //añadido por victor
+    
+    /*
+    //eliminado por victor 
+    public void mostrarClientes(List<Cliente> clientes) {
         String[] columnNames = {"Cédula", "Nombre Completo", "Dirección", "Teléfono", "Correo Electrónico"};
         String[][] data = new String[clientes.size()][5];
 
@@ -187,9 +280,11 @@ public class VentanaClientes extends JFrame {
 
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
     }
-
+    //eliminado por victor
+    */
+    
     private void actualizarTabla() {
-        mostrarClientes(listaClientes);
+        //mostrarClientes(listaClientes); //eliminado por victor 
     }
 
     private boolean cedulaExiste(String cedula) {
@@ -201,3 +296,4 @@ public class VentanaClientes extends JFrame {
         return false;
     }
 }
+
