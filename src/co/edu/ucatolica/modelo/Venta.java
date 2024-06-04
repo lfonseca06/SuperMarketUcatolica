@@ -3,7 +3,7 @@ package co.edu.ucatolica.modelo;
 import java.io.Serializable;
 import java.util.List;
 
-public class Venta implements Serializable {
+public class Venta implements Serializable { //estamos con toda muchachos! pueba de subida
     /**
 	 * 
 	 */
