@@ -3,6 +3,8 @@ package co.edu.ucatolica.vista;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.text.DecimalFormat;
+
 import co.edu.ucatolica.modelo.Compra;
 import co.edu.ucatolica.modelo.Producto;
 import co.edu.ucatolica.modelo.Proveedor;
@@ -17,6 +19,7 @@ public class ProductoPanel extends JPanel {
     private JButton agregarButton;
     private Compra compra;
     private JTextField cantidadComprarField;
+    private JTextField valorTotaldelIVA;
     private JTextField valorTotalCompraField;
     private JTextField valorTotalConIVAField;
     private JButton totalizarButton;
@@ -57,11 +60,12 @@ public class ProductoPanel extends JPanel {
 
         
         gbc.insets = new Insets(5, 5, 5, 5); // Ajustar el espaciado entre componentes
-
+        
+  
         cantidadComprarField = new JTextField(15);
         valorTotalCompraField = new JTextField(15);
         valorTotalConIVAField = new JTextField(15);
-        
+        valorTotaldelIVA = new JTextField(15); // Nuevo campo agregado
 
         // Campos de texto para la tabla de lectura de registros
         produc = createTextArea();
@@ -134,40 +138,52 @@ public class ProductoPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.weightx = 0.1;
         gbc.weighty = 0;
-        add(new JLabel("Valor Total de la Compra"), gbc);
+        add(new JLabel("Valor Total del IVA"), gbc); // Cambiado el nombre del campo
 
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbc.gridwidth = 3;
         gbc.weightx = 0.9;
-        add(valorTotalCompraField, gbc);
+        add(valorTotaldelIVA, gbc); // Añadido el nuevo campo
 
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.gridwidth = 1;
         gbc.weightx = 0.1;
-        add(new JLabel("Valor Total con IVA"), gbc);
+        add(new JLabel("Valor Total de la Compra"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 5;
         gbc.gridwidth = 3;
         gbc.weightx = 0.9;
+        add(valorTotalCompraField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.1;
+        add(new JLabel("Valor Total de la compra con IVA"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.gridwidth = 3;
+        gbc.weightx = 0.9;
         add(valorTotalConIVAField, gbc);
         
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7; // Ajustado el índice
         gbc.gridwidth = 1;
         gbc.weightx = 0.1;
         add(totalizarButton, gbc);
 
         gbc.gridx = 1;
-        gbc.gridy = 6;
+        gbc.gridy = 7; // Ajustado el índice
         gbc.gridwidth = 1;
         gbc.weightx = 0.1;
         add(confirmarCompraButton, gbc);
 
         gbc.gridx = 2;
-        gbc.gridy = 6;
+        gbc.gridy = 7; // Ajustado el índice
         gbc.gridwidth = 1;
         gbc.weightx = 0.1;
         add(butSalir, gbc);
@@ -176,6 +192,10 @@ public class ProductoPanel extends JPanel {
         codigoProductoField.setBackground(Color.YELLOW);
         totalizarButton.setBackground(Color.LIGHT_GRAY);
         confirmarCompraButton.setBackground(Color.LIGHT_GRAY);
+        
+        valorTotaldelIVA.setEditable(false);
+        valorTotalCompraField.setEditable(false);
+        valorTotalConIVAField.setEditable(false);
 
     }
 
@@ -347,6 +367,36 @@ public class ProductoPanel extends JPanel {
     public JButton getButSalir() {
         return butSalir;
     }
+    
+    public void calcularTotales(int iva) {
+        DecimalFormat df = new DecimalFormat("#.##");
 
+        // Obtener la cadena de valores totales
+        String[] valores = valorTotal.getText().trim().split("\n");
 
+        // Obtener el valor total anterior
+        double valorTotalAnterior = Double.parseDouble(valores[valores.length - 1]);
+
+        // Inicializar el nuevo valor total
+        double nuevoValorTotal = 0;
+
+        // Calcular el nuevo valor total sumando los valores individuales
+        for (String valor : valores) {
+            nuevoValorTotal += Double.parseDouble(valor);
+        }
+
+        // Restar el valor total anterior
+        double valorAcumulado = nuevoValorTotal - valorTotalAnterior;
+
+        // Calcular el valor total del IVA
+        double valorTotalIVA = valorAcumulado * (iva / 100.0);
+
+        // Calcular el valor total de la compra con IVA
+        double valorTotalConIVA = nuevoValorTotal + valorTotalIVA;
+
+        // Actualizar los campos de texto
+        valorTotalCompraField.setText(df.format(nuevoValorTotal));
+        valorTotaldelIVA.setText(df.format(valorTotalIVA));
+        valorTotalConIVAField.setText(df.format(valorTotalConIVA));
+    }
 }

@@ -23,6 +23,20 @@ public class Compra{
     private List<Integer> cantidades = new ArrayList<>();
     private double valorTotalGeneral = 0;
     
+    
+    public int leerIVA() {
+        int iva = 0;
+        try {
+            Tienda tienda = new Tienda();
+            tienda.cargarConfiguracion(); // Carga la configuración desde el archivo config.dat
+            iva = (int) tienda.getValorIVA();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return iva;
+    }
+    
+    
     public void agregarProducto(String codigoProducto, int cantidad) {
         List<Producto> productos = leerProductos();
         for (Producto producto : productos) {
@@ -136,4 +150,4 @@ public class Compra{
         }
         return null;
     }
-}    
+}

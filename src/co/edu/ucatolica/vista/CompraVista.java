@@ -98,7 +98,10 @@ public class CompraVista extends JFrame {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto y ingrese una cantidad.");
                 }
             } else if (evento.getSource() == productoPanel.getTotalizarButton()) {
-                System.out.println("Hola Mundo desde Totalizar");
+            	int iva = compra.leerIVA();
+                
+                // Calcular los totales y actualizar los campos de texto
+                productoPanel.calcularTotales(iva);
             } else if (evento.getSource() == productoPanel.getConfirmarCompraButton()) {
                 // Aquí debes añadir tu lógica para modificar un proveedor
                 // ...

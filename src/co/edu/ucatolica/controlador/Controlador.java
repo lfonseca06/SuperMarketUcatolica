@@ -39,7 +39,7 @@ public class Controlador implements ActionListener {
             ventanaPrincipal.getVentanaVentas().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnCompras()) {
             // Abrir ventana de compras
-        	ventanaPrincipal.getCompraVista().setVisible(true);
+        	 ventanaPrincipal.getCompraVista().setVisible(true);
         } else if (e.getSource() == ventanaPrincipal.getBtnReportes()) {
             // Abrir ventana de reportes
             ventanaPrincipal.getVentanaConsultas().setVisible(true);
