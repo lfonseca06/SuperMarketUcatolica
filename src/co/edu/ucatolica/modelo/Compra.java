@@ -1,7 +1,6 @@
 package co.edu.ucatolica.modelo;
 
 
-
 import co.edu.ucatolica.modelo.persistencia.ArchivosBinariosProveedor;
 import co.edu.ucatolica.modelo.persistencia.GestorArchivos;
 
@@ -20,21 +19,41 @@ public class Compra{
     private double valorIVA;
     private double valorTotalConIVA;
     private List<DetalleCompra> detalles;
-
-    public static String[] comboboX(List<Producto> nitsFiltados){
-        String[] nitProductos= new String[nitsFiltados.size()];
-        int indice=0;
-        for (Producto producto:nitsFiltados){
-            nitProductos[indice]=producto.getNITProveedor();
-            indice++;
+    private List<Producto> productosComprados = new ArrayList<>();
+    private List<Integer> cantidades = new ArrayList<>();
+    private double valorTotalGeneral = 0;
+    
+    public void agregarProducto(String codigoProducto, int cantidad) {
+        List<Producto> productos = leerProductos();
+        for (Producto producto : productos) {
+            if (producto.getCodigo().equals(codigoProducto)) {
+                productosComprados.add(producto);
+                cantidades.add(cantidad);
+                valorTotalGeneral += cantidad * producto.getPrecioVenta();
+                break;
+            }
         }
-        return nitProductos;
     }
+
+    public double getValorTotalGeneral() {
+        return valorTotalGeneral;
+    }
+
+    public List<Producto> getProductosComprados() {
+        return productosComprados;
+    }
+
+    public List<Integer> getCantidades() {
+        return cantidades;
+    }
+
+    
 	public static Proveedor[] leerProveedores() {
         Proveedor[] proveedores = ArchivosBinariosProveedor.leerArchivoBinarioProveedores();
         if (proveedores == null) {
             System.out.println("No se pudieron leer proveedores o el archivo está vacío.");
         }
+        System.out.println(proveedores);
         return proveedores;
     }
 
@@ -42,12 +61,22 @@ public class Compra{
         List<Producto> productos = null;
         try {
             productos = GestorArchivos.cargarProductos();
+            System.out.println(productos);
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error al cargar los productos: " + e.getMessage());
         }
-        System.err.println(productos);
         return productos;
     } 
+    
+    public Proveedor buscarProveedor(String nit) {
+        Proveedor[] proveedores = leerProveedores();
+        for (Proveedor proveedor : proveedores) {
+            if (proveedor.getNIT().equals(nit)) {
+                return proveedor;
+            }
+        }
+        return null;
+    }
     
     
     public static List<Producto> quiarNitsNoIguales() {
@@ -71,8 +100,40 @@ public class Compra{
 
         return productosValidos;
     }
-    public static void main(String[] args){
-        leerProductos();
-        
+    
+    public List<String> obtenerNombresProductosPorNITProveedor(String nitProveedor) {
+        List<String> nombresProductos = new ArrayList<>();
+        List<Producto> productos = leerProductos();
+        for (Producto producto : productos) {
+            if (producto.getNITProveedor().equals(nitProveedor)) {
+                nombresProductos.add(producto.getNombre());
+            }
+        }
+        return nombresProductos;
     }
-}
+    
+    public List<String> obtenerCodigosProductosPorNITProveedor(String nitProveedor) {
+        List<String> codigosProductos = new ArrayList<>();
+        List<Producto> productos = leerProductos();
+        for (Producto producto : productos) {
+            if (producto.getNITProveedor().equals(nitProveedor)) {
+                codigosProductos.add(producto.getCodigo());
+            }
+        }
+        return codigosProductos;
+    }
+    
+    public void agregarProducto(Producto producto, int cantidad) {
+        productosComprados.add(producto);
+        cantidades.add(cantidad);
+    }
+    
+    public Producto buscarProductoPorCodigo(String codigo) {
+        for (Producto producto : leerProductos()) {
+            if (producto.getCodigo().equals(codigo)) {
+                return producto;
+            }
+        }
+        return null;
+    }
+}    

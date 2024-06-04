@@ -25,7 +25,7 @@ public class VentanaPrincipal extends JFrame {
     private VistaProveedor ventanaProveedores ;    
     private  VentanaProductos ventanaProductos;
     private VentanaVentas ventanaVentas ;   
-    private VentanaCompras ventanaCompras ;  
+    private CompraVista compraVista ;  
     private VentanaConsultas ventanaConsultas ;   
     private VentanaParametrizacion ventanaParametros ;
         
@@ -38,7 +38,7 @@ public class VentanaPrincipal extends JFrame {
         this.ventanaProveedores = new VistaProveedor(fachada.getProveedorServicio());
         this.ventanaProductos = new VentanaProductos();
         this.ventanaVentas = new VentanaVentas(fachada);
-        this.ventanaCompras = new VentanaCompras(fachada);
+        this.compraVista = new CompraVista(fachada.getCompraServicio());
         this.ventanaConsultas = new VentanaConsultas(fachada);
         this.ventanaParametros = new VentanaParametrizacion(fachada);
 
@@ -163,8 +163,8 @@ public class VentanaPrincipal extends JFrame {
         return ventanaVentas;
     }
 
-    public VentanaCompras getVentanaCompras() {
-        return ventanaCompras;
+    public CompraVista getCompraVista() {
+        return compraVista;
     }
 
     public VentanaConsultas getVentanaConsultas() {
