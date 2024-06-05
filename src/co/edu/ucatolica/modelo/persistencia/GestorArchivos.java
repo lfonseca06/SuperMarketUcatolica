@@ -4,8 +4,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.ucatolica.modelo.Credito;
+import co.edu.ucatolica.modelo.DetalleVenta;
 import co.edu.ucatolica.modelo.Producto;
 import co.edu.ucatolica.modelo.Proveedor;
+import co.edu.ucatolica.modelo.VentaRegistro;
 import co.edu.ucatolica.vista.panelClientes;
 
 public class GestorArchivos {
@@ -64,6 +67,9 @@ public class GestorArchivos {
 
 
     private static final String FILE_PATH = "./data/productos.dat";
+    private static final String ARCHIVO_VENTAS = "./data/ventas.dat";
+    private static final String ARCHIVO_DETALLE_VENTAS = "./data/detalle_ventas.dat";
+    private static final String ARCHIVO_CREDITOS = "./data/creditos.dat";
 
     public static void eliminarProductoCodigo(String productoBorrar) throws IOException {
         try {
@@ -146,7 +152,23 @@ public class GestorArchivos {
         return listaNits;
     }
     
-    
+    public static void guardarCredito(Credito credito) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_CREDITOS, true))) {
+            oos.writeObject(credito);
+        }
+    }
+
+    public static void guardarVenta(VentaRegistro registro) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_VENTAS, true))) {
+            oos.writeObject(registro);
+        }
+    }
+
+    public static void guardarDetalleVenta(DetalleVenta detalle) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_DETALLE_VENTAS, true))) {
+            oos.writeObject(detalle);
+        }
+    }
 
 }
 
