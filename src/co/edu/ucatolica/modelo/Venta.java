@@ -21,10 +21,12 @@ public class Venta {
             } catch (EOFException e) {
                 // Fin del archivo alcanzado
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Error al cargar el archivo de ventas: " + e.getMessage());
+                // Eliminar el mensaje de advertencia en caso de error al cargar el archivo
+                // e.printStackTrace(); // Este es opcional si no quieres mostrar ninguna traza de excepción
             }
         } else {
-            System.out.println("No se pudo cargar el archivo de ventas. Iniciando contador en 0.");
+            // Eliminar el mensaje de advertencia cuando no se puede cargar el archivo de ventas
+            // System.out.println("No se pudo cargar el archivo de ventas. Iniciando contador en 0.");
         }
     }
 

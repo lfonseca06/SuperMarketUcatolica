@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class VerificarArchivos {
-    public static void main(String[] args) {
-        leerArchivoVentas();
-        leerArchivoDetalleVentas();
-    }
+
 
     public static void leerArchivoVentas() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./data/ventas.dat"))) {
