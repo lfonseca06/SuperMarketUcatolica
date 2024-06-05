@@ -80,9 +80,21 @@ public class VentanaVentas extends JFrame {
                 confirmarVenta();
             }
         });
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                limpiarCampos();
+            }
+        });
     }
 
     private void agregarProducto() {
+        if (txtCantidad.getText().isEmpty() || Integer.parseInt(txtCantidad.getText()) <= 0) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         String codigoProducto = txtCodigoProducto.getText();
         Producto producto = fachada.buscarProductoPorCodigo(codigoProducto);
         if (producto != null) {
@@ -125,8 +137,21 @@ public class VentanaVentas extends JFrame {
             } else if (metodoPago.equals("Crédito")) {
                 new VentanaCredito(fachada, cedulaCliente, valorTotalConIVA, valorIVA, productosVendidos, cantidadesVendidas).setVisible(true);
             }
+            limpiarCampos();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error al registrar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void limpiarCampos() {
+        txtCedulaCliente.setText("");
+        txtCodigoProducto.setText("");
+        txtNombreProducto.setText("");
+        txtCantidad.setText("");
+        txtValorTotal.setText("");
+        txtValorIVA.setText("");
+        txtValorTotalConIVA.setText("");
+        productosVendidos.clear();
+        cantidadesVendidas.clear();
     }
 }

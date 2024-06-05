@@ -1,0 +1,3 @@
+Código de Venta: 1, Cédula del Cliente: , Valor Total: 1.0, Valor IVA: 11.0, Valor Total con IVA: 1.0
+Código de Venta: 2, Cédula del Cliente: 1, Valor Total: 15.0, Valor IVA: 1.0, Valor Total con IVA: 1.0
+Código de Venta: 4, Cédula del Cliente: 1, Valor Total: 0.0, Valor IVA: 1.0, Valor Total con IVA: 1.0

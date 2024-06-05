@@ -77,21 +77,21 @@ public class VentanaCredito extends JFrame {
             double monto = Double.parseDouble(txtMontoFinanciar.getText());
             double tasaInteres = Double.parseDouble(txtTasaInteres.getText()) / 100;
             int plazo = Integer.parseInt(txtPlazo.getText());
-            double tasaEfectiva = tasaInteres / 12;  // Tasa efectiva mensual
-            double amortizacionCapital = monto / plazo;
+            double tasaEfectiva = Math.pow(1 + tasaInteres, 1.0 / 12) - 1;
+            double cuotaMensual = (monto * tasaEfectiva) / (1 - Math.pow(1 + tasaEfectiva, -plazo));
 
-            txtCuotaMensual.setText(String.format("%.2f", amortizacionCapital + (monto * tasaEfectiva)));
+            txtCuotaMensual.setText(String.format("%.2f", cuotaMensual));
 
             tablaAmortizacion.clear();
             txtTablaAmortizacion.setText("");
             double saldo = monto;
             for (int i = 1; i <= plazo; i++) {
                 double intereses = saldo * tasaEfectiva;
-                double cuota = amortizacionCapital + intereses;
-                saldo -= amortizacionCapital;
-                Cuota cuotaObj = new Cuota(i, saldo, cuota, intereses, amortizacionCapital);
-                tablaAmortizacion.add(cuotaObj);
-                txtTablaAmortizacion.append("Período " + i + ": Cuota: " + String.format("%.2f", cuota) + ", Intereses: " + String.format("%.2f", intereses) + ", Amortización: " + String.format("%.2f", amortizacionCapital) + ", Saldo: " + String.format("%.2f", saldo) + "\n");
+                double amortizacion = cuotaMensual - intereses;
+                saldo -= amortizacion;
+                Cuota cuota = new Cuota(i, saldo, cuotaMensual, intereses, amortizacion);
+                tablaAmortizacion.add(cuota);
+                txtTablaAmortizacion.append("Período: " + i + ", Intereses: " + intereses + ", Amortización: " + amortizacion + ", Cuota: " + cuotaMensual + ", Saldo: " + saldo + "\n");
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Por favor ingrese valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -109,6 +109,4 @@ public class VentanaCredito extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al registrar la venta a crédito: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    
 }

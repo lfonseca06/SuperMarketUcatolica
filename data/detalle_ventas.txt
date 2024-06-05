@@ -1,0 +1,1 @@
+Código de Venta: 2, Código de Producto: 1, Cantidad: 1, Valor Unitario: 15.0, Valor Total: 15.0

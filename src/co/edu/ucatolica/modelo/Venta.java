@@ -5,28 +5,24 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Venta {
-    private static final String ARCHIVO_VENTAS = "data/ventas.dat";
-    private static final String ARCHIVO_DETALLE_VENTAS = "data/detalle_ventas.dat";
+    private static final String ARCHIVO_VENTAS = "data/ventas.txt";
+    private static final String ARCHIVO_DETALLE_VENTAS = "data/detalle_ventas.txt";
     private static AtomicInteger contadorCodigoVenta = new AtomicInteger(0);
 
     public Venta() {
         // Inicializa el contador de código de venta desde el archivo de ventas si existe
         File fileVentas = new File(ARCHIVO_VENTAS);
         if (fileVentas.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileVentas))) {
-                while (true) {
-                    VentaRegistro registro = (VentaRegistro) ois.readObject();
-                    contadorCodigoVenta.set(Math.max(contadorCodigoVenta.get(), registro.getCodigoVenta()));
+            try (BufferedReader reader = new BufferedReader(new FileReader(fileVentas))) {
+                String linea;
+                while ((linea = reader.readLine()) != null) {
+                    String[] datos = linea.split(",");
+                    int codigoVenta = Integer.parseInt(datos[0].split(":")[1].trim());
+                    contadorCodigoVenta.set(Math.max(contadorCodigoVenta.get(), codigoVenta));
                 }
-            } catch (EOFException e) {
-                // Fin del archivo alcanzado
-            } catch (IOException | ClassNotFoundException e) {
-                // Eliminar el mensaje de advertencia en caso de error al cargar el archivo
-                // e.printStackTrace(); // Este es opcional si no quieres mostrar ninguna traza de excepción
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } else {
-            // Eliminar el mensaje de advertencia cuando no se puede cargar el archivo de ventas
-            // System.out.println("No se pudo cargar el archivo de ventas. Iniciando contador en 0.");
         }
     }
 
@@ -35,9 +31,9 @@ public class Venta {
     }
 
     public void registrarVenta(int codigoVenta, String cedulaCliente, double valorTotal, double valorIVA, double valorTotalConIVA) throws IOException {
-        VentaRegistro registro = new VentaRegistro(codigoVenta, cedulaCliente, valorTotal, valorIVA, valorTotalConIVA);
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_VENTAS, true))) {
-            oos.writeObject(registro);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_VENTAS, true))) {
+            writer.write("Código de Venta: " + codigoVenta + ", Cédula del Cliente: " + cedulaCliente + ", Valor Total: " + valorTotal + ", Valor IVA: " + valorIVA + ", Valor Total con IVA: " + valorTotalConIVA);
+            writer.newLine();
         }
     }
 
@@ -53,9 +49,9 @@ public class Venta {
     }
 
     public void registrarDetalleVenta(int codigoVenta, String codigoProducto, int cantidad, double valorUnitario, double valorTotal) throws IOException {
-        DetalleVenta detalle = new DetalleVenta(codigoVenta, codigoProducto, cantidad, valorUnitario, valorTotal);
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_DETALLE_VENTAS, true))) {
-            oos.writeObject(detalle);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_DETALLE_VENTAS, true))) {
+            writer.write("Código de Venta: " + codigoVenta + ", Código de Producto: " + codigoProducto + ", Cantidad: " + cantidad + ", Valor Unitario: " + valorUnitario + ", Valor Total: " + valorTotal);
+            writer.newLine();
         }
     }
 }
