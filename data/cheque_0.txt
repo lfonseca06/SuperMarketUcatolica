@@ -1,0 +1,6 @@
+Consecutivo de cheque: 0
+Nombre del proveedor: javax.swing.JTextField[,338,207,169x20,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.BorderUIResource$CompoundBorderUIResource@171a57f2,flags=296,maximumSize=,minimumSize=,preferredSize=,caretColor=sun.swing.PrintColorUIResource[r=51,g=51,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],editable=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorUIResource[r=51,g=51,b=51],selectionColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],columns=15,columnWidth=11,command=,horizontalAlignment=LEADING]
+Valor total con IVA (en cifra): $0
+Valor total con IVA (en monto escrito): CERO
+Nombre del banco: sadasd
+Número de cuenta: 1

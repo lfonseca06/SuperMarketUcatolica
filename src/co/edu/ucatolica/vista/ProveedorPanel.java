@@ -1,5 +1,4 @@
 package co.edu.ucatolica.vista;
- 
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -7,10 +6,10 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-
-import co.edu.ucatolica.modelo.Proveedor;
-import co.edu.ucatolica.modelo.Compra;
 import java.util.List;
+import co.edu.ucatolica.modelo.Compra;
+import co.edu.ucatolica.modelo.Proveedor;
+import co.edu.ucatolica.modelo.GeneradorCodigo; 
 
 public class ProveedorPanel extends JPanel {
     private JComboBox<String> nitField;
@@ -19,6 +18,12 @@ public class ProveedorPanel extends JPanel {
     private Compra compra;
     private ProductoPanel productoPanel; // Añadido
     private JLabel imagenLabel; // Añadido para la imagen
+
+    public ProveedorPanel() {
+        nombreProveedorField = new JTextField(20);
+        add(new JLabel("Nombre Proveedor:"));
+        add(nombreProveedorField);
+    }
 
     public ProveedorPanel(Compra compra, ProductoPanel productoPanel) { // Modificado
         this.compra = compra;
@@ -33,8 +38,8 @@ public class ProveedorPanel extends JPanel {
         buscarProveedorButton = new JButton("Buscar Proveedor");
 
         gbc.insets = new Insets(2, 2, 2, 2);
-        
-     // Añadir la imagen al panel
+
+        // Añadir la imagen al panel
         imagenLabel = new JLabel();
         try {
             ImageIcon icon = new ImageIcon(ImageIO.read(new File("./images/logo.jpg")));
@@ -45,47 +50,56 @@ public class ProveedorPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+     
+     // Ajustes de posición y tamaño de los componentes
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 5; // Para que la imagen ocupe el ancho completo de los elementos debajo
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridheight = 3;
+        gbc.anchor = GridBagConstraints.WEST;
         add(imagenLabel, gbc);
 
-        gbc.gridwidth = 1; // Restablecer el ancho de los componentes a 1
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridheight = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST; // Alinear a la izquierda
         add(new JLabel("NIT"), gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         add(nitField, gbc);
 
-        gbc.gridx = 3;
-        gbc.gridy = 1;
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
         add(buscarProveedorButton, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST; // Alinear a la izquierda
         add(new JLabel("Nombre del Proveedor"), gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.gridwidth = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         add(nombreProveedorField, gbc);
 
-
-        buscarProveedorButton.setBackground(Color.LIGHT_GRAY);
-        nitField.setBackground(Color.YELLOW);
+        // Personalizar los colores de los componentes
+       
+       
+        nombreProveedorField.setBackground(Color.WHITE); // Color blanco para el campo de texto
     }
 
     private String[] getNitsFromProveedores(Compra compra) {
         Proveedor[] proveedores = compra.leerProveedores();
         String[] nits = new String[proveedores.length];
-        
+
         for (int i = 0; i < proveedores.length; i++) {
             nits[i] = proveedores[i].getNIT();
         }
@@ -104,10 +118,10 @@ public class ProveedorPanel extends JPanel {
         nombreProveedorField.setText(nombre);
     }
 
-    public JTextField getNombreProveedorField() {
-        return nombreProveedorField;
+    public String getNombreProveedor() {
+        return nombreProveedorField.getText();
     }
-    
+
     public void actualizarProveedores() {
         String[] opciones = getNitsFromProveedores(compra);
         nitField.setModel(new DefaultComboBoxModel<>(opciones));
@@ -133,7 +147,7 @@ public class ProveedorPanel extends JPanel {
             System.out.println("productoPanel es null");
         }
     }
-    
+
     @Override
     public void addNotify() {
         super.addNotify();

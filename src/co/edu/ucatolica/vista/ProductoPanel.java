@@ -1,5 +1,6 @@
 package co.edu.ucatolica.vista;
 
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -56,9 +57,7 @@ public class ProductoPanel extends JPanel {
         
         butSalir = new JButton("Salir");
         butSalir.setActionCommand(SALIR);
-        butSalir.setBackground(new Color(255, 102, 102)); // Cambiar color a rojo claro
-
-        
+             
         gbc.insets = new Insets(5, 5, 5, 5); // Ajustar el espaciado entre componentes
         
   
@@ -188,10 +187,7 @@ public class ProductoPanel extends JPanel {
         gbc.weightx = 0.1;
         add(butSalir, gbc);
 
-        buscarProductoButton.setBackground(Color.LIGHT_GRAY);
-        codigoProductoField.setBackground(Color.YELLOW);
-        totalizarButton.setBackground(Color.LIGHT_GRAY);
-        confirmarCompraButton.setBackground(Color.LIGHT_GRAY);
+       
         
         valorTotaldelIVA.setEditable(false);
         valorTotalCompraField.setEditable(false);
@@ -368,7 +364,7 @@ public class ProductoPanel extends JPanel {
         return butSalir;
     }
     
-    public void calcularTotales(int iva) {
+    public double calcularTotales(int iva) {
         DecimalFormat df = new DecimalFormat("#.##");
 
         // Obtener la cadena de valores totales
@@ -398,5 +394,6 @@ public class ProductoPanel extends JPanel {
         valorTotalCompraField.setText(df.format(nuevoValorTotal));
         valorTotaldelIVA.setText(df.format(valorTotalIVA));
         valorTotalConIVAField.setText(df.format(valorTotalConIVA));
+        return valorTotalConIVA;
     }
 }

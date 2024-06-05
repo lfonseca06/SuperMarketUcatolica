@@ -68,12 +68,11 @@ public class NumeroATexto {
             if (resto == 0) {
                 resultado = milesMillonesTexto;
             } else {
-                resultado = milesMillonesTexto + " " + convertir(resto);
+                resultado = milesMillonesTexto + " " + convertir(resto) ;
             }
         }
 
         return resultado.toUpperCase();
     }
-
-    
 }
+

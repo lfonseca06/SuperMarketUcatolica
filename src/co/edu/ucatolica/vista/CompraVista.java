@@ -4,31 +4,35 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.io.IOException;
+
+import co.edu.ucatolica.modelo.Cheque;
 import co.edu.ucatolica.modelo.Compra;
 import co.edu.ucatolica.modelo.Producto;
-import co.edu.ucatolica.modelo.Proveedor;
+
 
 public class CompraVista extends JFrame {
     private ProveedorPanel proveedorPanel;
     private ProductoPanel productoPanel;
     private ChequePanel chequePanel;
     private Compra compra;
-    private VentanaPrincipal ventanaPrincipal;
+    private double valTotal = 0;
+    private Image backgroundImage;
 
+
+	
     public CompraVista(Compra compra) {
         this.compra = compra;
         setTitle("Gestión de Compras");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 750);
-        setLayout(new GridBagLayout());
+        setSize(1400, 750);
+        getContentPane().setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         productoPanel = new ProductoPanel(compra);
         proveedorPanel = new ProveedorPanel(compra, productoPanel);
         chequePanel = new ChequePanel();
 
-        
         proveedorPanel.getBuscarProveedorButton().addActionListener(new ButtonListener());
         productoPanel.getBuscarProductoButton().addActionListener(new ButtonListener());
         productoPanel.getAgregarButton().addActionListener(new ButtonListener());
@@ -38,37 +42,41 @@ public class CompraVista extends JFrame {
 
         gbc.insets = new Insets(2, 2, 2, 2);
 
-     //   // Configurar GridBagConstraints para el panel de proveedor
-        // Configurar GridBagConstraints para el panel de proveedor
+        // Configurar GridBagConstraints para los paneles
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.weightx = 0.3; // Ancho relativo al de los otros paneles
+        gbc.weightx = 0.3;
         gbc.weighty = 0.5;
         gbc.fill = GridBagConstraints.BOTH;
-        add(proveedorPanel, gbc);
+        getContentPane().add(proveedorPanel, gbc);
 
-        // Configurar GridBagConstraints para el panel de cheque
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
-        gbc.gridheight = 2; // Ocupa dos filas para tener el mismo alto que la suma de los otros dos paneles
-        gbc.weightx = 0.2; // Reducir el peso horizontal para disminuir el ancho del panel de cheque
-        gbc.weighty = 1.0; // Ocupa todo el espacio vertical disponible
-        add(chequePanel, gbc);
+        gbc.gridheight = 2;
+        gbc.weightx = 0.2;
+        gbc.weighty = 1.0;
+        getContentPane().add(chequePanel, gbc);
 
-        // Configurar GridBagConstraints para el panel de producto
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.weightx = 0.3; // Mismo ancho que el panel de proveedor
+        gbc.weightx = 0.3;
         gbc.weighty = 0.5;
-        add(productoPanel, gbc);
-
-        
+        getContentPane().add(productoPanel, gbc);
     }
+    //Custom JPanel to paint the background image
+    public class BackgroundPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+
 
     private class ButtonListener implements ActionListener {
         @Override
@@ -80,7 +88,7 @@ public class CompraVista extends JFrame {
             } else if (evento.getSource() == productoPanel.getAgregarButton()) {
                 String codigoProducto = productoPanel.getCodigoProducto();
                 String cantidadStr = productoPanel.getCantidadField().getText();
-                
+
                 if (codigoProducto != null && !cantidadStr.isEmpty()) {
                     try {
                         int cantidad = Integer.parseInt(cantidadStr);
@@ -98,17 +106,43 @@ public class CompraVista extends JFrame {
                     JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto y ingrese una cantidad.");
                 }
             } else if (evento.getSource() == productoPanel.getTotalizarButton()) {
-            	int iva = compra.leerIVA();
-                
-                // Calcular los totales y actualizar los campos de texto
-                productoPanel.calcularTotales(iva);
+                int iva = compra.leerIVA();
+                valTotal = productoPanel.calcularTotales(iva);
+                compra.setValorTotalConIVA(valTotal);
             } else if (evento.getSource() == productoPanel.getConfirmarCompraButton()) {
-                // Aquí debes añadir tu lógica para modificar un proveedor
-                // ...
-                // Y luego actualizar el JComboBox
+                confirmarCompraAction();
             } else if (evento.getSource() == productoPanel.getButSalir()) {
                 dispose();
             }
+        }
+    }
+
+    public void confirmarCompraAction() {
+        try {
+            compra.generarCodigoCompra();
+            String nombreProveedor = proveedorPanel.getNombreProveedor(); // Obtener el texto del JTextField
+            String nombreBanco = compra.leerBanco();
+            String numeroCuenta = compra.leerCuenta();
+            Cheque cheque2 = new Cheque();
+            
+            int consecutivoCheque = cheque2.obtenerConsecutivoCheque(); // Obtener y actualizar el consecutivo del cheque
+
+            //compra.confirmarCompra(consecutivoCheque, nombreProveedor, nombreBanco, numeroCuenta);
+           
+            // Mostrar detalles del cheque
+            Cheque cheque = new Cheque(consecutivoCheque, nombreProveedor, (int)valTotal, nombreBanco, numeroCuenta);
+            System.out.println(cheque);
+            chequePanel.mostrarCheque(cheque);
+
+            // Guardar datos de la compra
+            compra.guardarCompraEnArchivo("./data/compras.txt");
+            compra.guardarDetalleCompraEnArchivo("./data/detalle_compras.txt");
+            compra.guardarChequeEnArchivo("./data/cheques.txt", consecutivoCheque);
+
+            JOptionPane.showMessageDialog(this, "Compra confirmada y datos guardados correctamente.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar los datos de la compra: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -124,8 +158,7 @@ public class CompraVista extends JFrame {
         return chequePanel;
     }
 
-
-    public CompraVista(VentanaPrincipal ventanaPrincipal) {
-        this.ventanaPrincipal = ventanaPrincipal;
+    public void mostrarCheque(Cheque cheque) {
+        chequePanel.mostrarCheque(cheque);
     }
 }
