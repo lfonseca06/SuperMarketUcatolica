@@ -9,7 +9,8 @@ import co.edu.ucatolica.modelo.persistencia.GestorArchivos;
 
 public class VentanaProductos extends JFrame {
     private static final long serialVersionUID = 1L;
-    private JTextField txtCodigoProducto, txtNombreProducto, txtNITProveedor, txtPrecioCompra, txtPrecioVenta;
+    private JComboBox<String> txtNITProveedor;
+    private JTextField txtCodigoProducto, txtNombreProducto, txtPrecioCompra, txtPrecioVenta;
     private JButton btnAgregarProducto, btnActualizarProducto, btnEliminarProducto, btnBuscarProducto;
 
     public VentanaProductos() {
@@ -20,7 +21,7 @@ public class VentanaProductos extends JFrame {
 
         txtCodigoProducto = new JTextField();
         txtNombreProducto = new JTextField();
-        txtNITProveedor = new JTextField();
+        txtNITProveedor = new JComboBox<>(GestorArchivos.listaNitProveedores());
         txtPrecioCompra = new JTextField();
         txtPrecioVenta = new JTextField();
         btnAgregarProducto = new JButton("Agregar Producto");
@@ -59,7 +60,7 @@ public class VentanaProductos extends JFrame {
             Producto producto = new Producto();
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtNombreProducto.getText());
-            producto.setNITProveedor(txtNITProveedor.getText());
+            producto.setNITProveedor((String)(txtNITProveedor.getSelectedItem()));
             try {
                 Double precioCom = Double.parseDouble(txtPrecioCompra.getText());
                 producto.setPrecioCompra(precioCom);
@@ -80,7 +81,7 @@ public class VentanaProductos extends JFrame {
             Producto producto = new Producto();
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtNombreProducto.getText());
-            producto.setNITProveedor(txtNITProveedor.getText());
+            producto.setNITProveedor((String)txtNITProveedor.getSelectedItem());
             try {
                 Double precioCom = Double.parseDouble(txtPrecioCompra.getText());
                 producto.setPrecioCompra(precioCom);
@@ -116,7 +117,6 @@ public class VentanaProductos extends JFrame {
                     .orElse(null);
             if (producto != null) {
                 txtNombreProducto.setText(producto.getNombre());
-                txtNITProveedor.setText(producto.getNITProveedor());
                 txtPrecioCompra.setText(String.valueOf(producto.getPrecioCompra()));
                 txtPrecioVenta.setText(String.valueOf(producto.getPrecioVenta()));
             } else {

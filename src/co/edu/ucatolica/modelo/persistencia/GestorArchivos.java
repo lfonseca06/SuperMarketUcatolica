@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.ucatolica.modelo.Producto;
+import co.edu.ucatolica.modelo.Proveedor;
+import co.edu.ucatolica.vista.panelClientes;
 
 public class GestorArchivos {
 
@@ -132,5 +134,19 @@ public class GestorArchivos {
             return false;
         }
     }
+
+    public static String[] listaNitProveedores() {
+        
+        ArchivosBinariosProveedor archProv=new ArchivosBinariosProveedor();
+        Proveedor[] lisArchProv = archProv.leerArchivoBinarioProveedores();
+        String[] listaNits=new String[lisArchProv.length];
+        for (int i=0;i<lisArchProv.length;i++){
+            listaNits[i]=lisArchProv[i].getNIT();
+        }
+        return listaNits;
+    }
+    
+    
+
 }
 
