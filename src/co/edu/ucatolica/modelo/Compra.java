@@ -4,6 +4,7 @@ package co.edu.ucatolica.modelo;
 import co.edu.ucatolica.modelo.persistencia.ArchivosBinariosProveedor;
 import co.edu.ucatolica.modelo.persistencia.GestorArchivos;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,6 +96,7 @@ public class Compra{
         return codigoCompra;
     }
     
+    /*
     public void generarCheque(int consecutivo, String nombreProveedor, int valorTotalConIVA, String nombreBanco, String numeroCuenta) {
         Cheque cheque = new Cheque(consecutivo, nombreProveedor, valorTotalConIVA, nombreBanco, numeroCuenta);
         try {
@@ -105,52 +107,49 @@ public class Compra{
             System.out.println("Error al generar el cheque: " + e.getMessage());
         }
     }
-
-    public String leerCheque(int consecutivo) {
-        try {
-            // Leer el cheque
-            String contenidoCheque = GestorArchivos.leerTexto("./data/cheque_" + consecutivo + ".txt");
-            return contenidoCheque;
-        } catch (IOException e) {
-            System.out.println("Error al leer el cheque: " + e.getMessage());
-            return null; // Retornar null en caso de error
-        }
-    }
- 
+   */
+    
    
-
-   
-        // Otros atributos y métodos de la clase Compra...
-
-    // Método para guardar la compra en archivo sin sobrescribir
+ // Método para guardar la compra en archivo sin sobrescribir
     public void guardarCompraEnArchivo(String rutaArchivo) throws IOException {
-        String contenido = String.format("%s,%s,%.2f,%.2f,%.2f%n", codigoCompra, NITProveedor, valorTotal, valorIVA, valorTotalConIVA);
-        agregarTextoArchivo(rutaArchivo, contenido);
+        String header = "codigoCompra;NITProveedor;valorTotal;valorIVA;valorTotalConIVA" + System.lineSeparator();
+        String contenido = String.format("%s;%s;%.2f;%.2f;%.2f%n", codigoCompra, NITProveedor, valorTotal, valorIVA, valorTotalConIVA);
+        agregarTextoArchivoConHeader(rutaArchivo, header, contenido);
     }
 
     // Método para guardar el detalle de la compra en archivo sin sobrescribir
     public void guardarDetalleCompraEnArchivo(String rutaArchivo) throws IOException {
+        String header = "codigoCompra;codigoProducto;cantidad;valorTotalItem" + System.lineSeparator();
         StringBuilder contenido = new StringBuilder();
         for (int i = 0; i < productosComprados.size(); i++) {
             Producto producto = productosComprados.get(i);
             int cantidad = cantidades.get(i);
             double valorTotalItem = producto.getPrecioCompra() * cantidad;
-            contenido.append(String.format("%s,%d,%.2f,%s%n", producto.getCodigo(), cantidad, valorTotalItem, codigoCompra));
+            contenido.append(String.format("%s;%s;%d;%.2f%n", codigoCompra, producto.getCodigo(), cantidad, valorTotalItem));
         }
-        agregarTextoArchivo(rutaArchivo, contenido.toString());
+        agregarTextoArchivoConHeader(rutaArchivo, header, contenido.toString());
     }
 
     // Método para guardar el cheque en archivo sin sobrescribir
     public void guardarChequeEnArchivo(String rutaArchivo, int consecutivoCheque) throws IOException {
-        String contenido = String.format("%d,%s,%s,%.2f%n", consecutivoCheque, codigoCompra, NITProveedor, valorTotalConIVA);
-        agregarTextoArchivo(rutaArchivo, contenido);
+        String header = "codigoCompra;consecutivoCheque;NITProveedor;valorTotalConIVA" + System.lineSeparator();
+        String contenido = String.format("%s;%d;%s;%.2f%n", codigoCompra, consecutivoCheque, NITProveedor, valorTotalConIVA);
+        agregarTextoArchivoConHeader(rutaArchivo, header, contenido);
     }
- // Método auxiliar para agregar texto a un archivo
-    private void agregarTextoArchivo(String rutaArchivo, String contenido) throws IOException {
+
+    // Método auxiliar para agregar texto a un archivo con encabezado
+    private void agregarTextoArchivoConHeader(String rutaArchivo, String header, String contenido) throws IOException {
+        File archivo = new File(rutaArchivo);
+        boolean archivoVacio = !archivo.exists() || archivo.length() == 0;
+
         try (FileWriter fileWriter = new FileWriter(rutaArchivo, true)) {
+            if (archivoVacio) {
+                fileWriter.write(header);
+            }
             fileWriter.write(contenido);
         }
     }
+    
     public void agregarProducto(String codigoProducto, int cantidad) {
         List<Producto> productos = leerProductos();
         for (Producto producto : productos) {
@@ -200,6 +199,7 @@ public class Compra{
         Proveedor[] proveedores = leerProveedores();
         for (Proveedor proveedor : proveedores) {
             if (proveedor.getNIT().equals(nit)) {
+            	NITProveedor= integer(proveedor);
                 return proveedor;
             }
         }
@@ -207,7 +207,12 @@ public class Compra{
     }
     
     
-    public static List<Producto> quiarNitsNoIguales() {
+    private String integer(Proveedor proveedor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static List<Producto> quiarNitsNoIguales() {
         Proveedor[] prov = leerProveedores();
         List<Producto> produc = leerProductos();
         List<String> productosNit=new ArrayList<>();
