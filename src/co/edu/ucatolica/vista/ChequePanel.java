@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import co.edu.ucatolica.modelo.Cheque;
-import co.edu.ucatolica.vista.ChequePanel.BackgroundPanel;
+
 
 public class ChequePanel extends JPanel {
     private JTextField consecutivoChequeField;

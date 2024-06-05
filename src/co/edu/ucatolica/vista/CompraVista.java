@@ -9,7 +9,30 @@ import java.io.IOException;
 import co.edu.ucatolica.modelo.Cheque;
 import co.edu.ucatolica.modelo.Compra;
 import co.edu.ucatolica.modelo.Producto;
+import co.edu.ucatolica.modelo.Proveedor;
 
+// Clase para el panel de fondo
+class FondoPanel extends JPanel {
+    private Image imagen;
+
+    // Constructor que carga la imagen desde un archivo
+    public FondoPanel(String nombreImagen) {
+        try {
+            imagen = new ImageIcon(nombreImagen).getImage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para pintar la imagen de fondo
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (imagen != null) {
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+}
 
 public class CompraVista extends JFrame {
     private ProveedorPanel proveedorPanel;
@@ -17,16 +40,18 @@ public class CompraVista extends JFrame {
     private ChequePanel chequePanel;
     private Compra compra;
     private double valTotal = 0;
-    private Image backgroundImage;
 
-
-	
     public CompraVista(Compra compra) {
         this.compra = compra;
         setTitle("Gestión de Compras");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1400, 750);
-        getContentPane().setLayout(new GridBagLayout());
+        setSize(1200, 750);
+        
+        // Crear el panel de fondo con la imagen especificada
+        FondoPanel fondoPanel = new FondoPanel("./images/imagendefondo.jpg");
+
+        // Establecer el layout del panel de fondo
+        fondoPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         productoPanel = new ProductoPanel(compra);
@@ -50,7 +75,7 @@ public class CompraVista extends JFrame {
         gbc.weightx = 0.3;
         gbc.weighty = 0.5;
         gbc.fill = GridBagConstraints.BOTH;
-        getContentPane().add(proveedorPanel, gbc);
+        fondoPanel.add(proveedorPanel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -58,7 +83,7 @@ public class CompraVista extends JFrame {
         gbc.gridheight = 2;
         gbc.weightx = 0.2;
         gbc.weighty = 1.0;
-        getContentPane().add(chequePanel, gbc);
+        fondoPanel.add(chequePanel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -66,17 +91,11 @@ public class CompraVista extends JFrame {
         gbc.gridheight = 1;
         gbc.weightx = 0.3;
         gbc.weighty = 0.5;
-        getContentPane().add(productoPanel, gbc);
-    }
-    //Custom JPanel to paint the background image
-    public class BackgroundPanel extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-        }
-    }
+        fondoPanel.add(productoPanel, gbc);
 
+        // Establecer el panel de fondo como el panel principal de la ventana
+        setContentPane(fondoPanel);
+    }
 
     private class ButtonListener implements ActionListener {
         @Override
